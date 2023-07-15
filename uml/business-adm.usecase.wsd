@@ -1,0 +1,105 @@
+@startuml
+allowmixing
+
+left to right direction
+
+actor "Admin" as admin
+actor "Admin franchise" as adminFranchise
+
+rectangle Usecases {
+  usecase "Create Franchise" as CF
+  usecase "Update Franchise" as UF
+  usecase "Deactivate Franchise" as DF
+  usecase "List Franchise" as LF
+  usecase "List Franchises" as LFS
+
+  usecase "Create Administrator" as CA
+  usecase "Update Administrator" as UA
+  usecase "Deactivate Administrator" as DA
+  usecase "List Administrator" as LA
+  usecase "List Administrators" as LAS
+
+  usecase "Create Coach" as CC
+  usecase "Update Coach" as UC
+  usecase "Deactivate Coach" as DC
+  usecase "List Coach" as LC
+  usecase "List Coaches" as LCS
+}
+
+rectangle Database {
+  json Franchises {
+   "id": "string",
+   "color": "string",
+   "logoUrl": "string",
+   "name": "string",
+   "email": "string",
+   "document":"string",
+   "active": "boolean",
+   "street": "string",
+   "number": "string",
+   "complement": "string",
+   "neighborhood": "string",
+   "city": "string",
+   "state": "string",
+   "tenantId": "string"
+  }
+}
+
+admin --> Tenant
+admin --> CF
+admin --> UF
+admin --> DF
+admin --> LF
+admin --> LFS
+
+admin --> CA
+admin --> UA
+admin --> DA
+admin --> LA
+admin --> LAS
+
+admin --> CC
+admin --> UC
+admin --> DC
+admin --> LC
+admin --> LCS
+
+adminFranchise --> Tenant
+adminFranchise --> CF
+adminFranchise --> UF
+adminFranchise --> DF
+adminFranchise --> LF
+adminFranchise --> LFS
+
+adminFranchise --> CA
+adminFranchise --> UA
+adminFranchise --> DA
+adminFranchise --> LA
+adminFranchise --> LAS
+
+adminFranchise --> CC
+adminFranchise --> UC
+adminFranchise --> DC
+adminFranchise --> LC
+adminFranchise --> LCS
+
+
+CF --> Database
+UF --> Database
+DF --> Database
+LF --> Database
+LFS --> Database
+
+CA --> Database
+UA --> Database
+DA --> Database
+LA --> Database
+LAS --> Database
+
+CC --> Database
+UC --> Database
+DC --> Database
+LC --> Database
+LCS --> Database
+
+@enduml

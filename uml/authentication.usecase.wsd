@@ -1,0 +1,61 @@
+@startuml
+allowmixing
+
+left to right direction
+
+actor "User" as user
+
+rectangle Usecases {
+  usecase "Create user" as CU
+  usecase "Update user" as UU
+  usecase "Deactivate" as DU
+  usecase "Authentication" as ATC
+  usecase "Authorization" as ATR
+}
+
+rectangle Database {
+  json Users {
+   "id":"string",
+   "name":"string",
+   "email": "string",
+   "document":"string",
+   "role": "string",
+   "password": "string",
+   "active": "boolean",
+   "tenantId": "string",
+   "franchises": "JSON.type string[]",
+   "accessGroupId": "string"
+  }
+
+  json AcessGroup{
+    "id": "string",
+    "name": "string"
+  }
+
+  json AcessGroupsResources{
+    "accessGroupId": "string",
+    "resourceId": "string"
+  }
+
+  json SystemResources {
+   "id": "string",
+   "name": "string",
+   "module": "string",
+   "createdAt": "datetime",
+   "updatedAt": "datetime"
+  }
+}
+
+user --> Tenant
+user --> ATC
+user --> ATR
+user --> CU
+user --> UU
+user --> DU
+CU --> Database
+UU --> Database
+ATC --> Database
+ATR --> Database
+DU --> Database
+
+@enduml

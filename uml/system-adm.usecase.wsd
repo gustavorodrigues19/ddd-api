@@ -1,0 +1,59 @@
+@startuml
+allowmixing
+
+rectangle Database {
+  json Tenants {
+    "id":"string",
+    "name":"string",
+    "domain": "domain",
+    "cnpj":"string",
+    "planId": "string",
+    "active": "boolean"
+  }
+
+  json Plans {
+    "id": "string",
+    "name":"string",
+    "description": "string",
+    "value": "number"
+  }
+}
+
+left to right direction
+actor "Administrator" as adm
+rectangle Usecases {
+  usecase "Create tenant" as CT
+  usecase "Update tenant" as UT
+  usecase "Find tenant" as FT
+  usecase "Find tenants" as FTS
+  usecase "Deactivate tenant" as DT
+
+  usecase "Create plan" as CP
+  usecase "Update plan" as UP
+  usecase "Find plan" as FP
+  usecase "Find plans" as FPS
+}
+
+adm --> Tenant
+adm --> CT
+adm --> UT
+adm --> FT
+adm --> FTS
+adm --> DT
+adm --> CP
+adm --> UP
+adm --> FP
+adm --> FPS
+
+CT --> Database
+UT --> Database
+FT --> Database
+FTS --> Database
+DT --> Database
+
+CP --> Database
+UP --> Database
+FP --> Database
+FPS --> Database
+
+@enduml

@@ -1,0 +1,158 @@
+@startuml
+allowmixing
+
+left to right direction
+actor "Administrator" as admin
+actor "Coach" as coach
+actor "Athlete" as athlete
+
+rectangle AcademyAdmUsecases {
+  usecase "Create Athlete" as CA
+  usecase "Update Athlete" as UA
+  usecase "Find Athlete" as FA
+  usecase "Find Athletes" as FAS
+  usecase "Deactivate Athlete" as DA
+
+  usecase "Create Team" as CT
+  usecase "Update Team" as UT
+  usecase "Find Team" as FT
+  usecase "Find Teams" as FTS
+  usecase "Deactivate Team" as DT
+  
+  usecase "Create Category" as CC
+  usecase "Update Category" as UC
+  usecase "Delete Category" as DC
+  usecase "Find Category" as FC
+  usecase "Find Categories" as FCS
+
+  usecase "Create Medical Term" as CMR
+  usecase "Update Medical Term" as UMT
+  usecase "Delete Medical Term" as DMT
+  usecase "Find Medical Term" as FMT
+  usecase "Find Medical Terms" as FMTS
+  usecase "Aprove Medical Term" as AMT
+}
+
+rectangle Database {
+  json Athletes {
+    "id":"string",
+    "name":"string",
+    "document":"string",
+    "phone": "string",
+    "birthDate": "Date",
+    "active": "boolean",
+    "categories": "JSON type string[]",
+    "userId": "string",
+    "franchiseId": "string",
+    "tenantId": "string"
+  }
+
+  json Teams {
+    "id":"string",
+    "name":"string",
+    "categoryId": "string",
+    "trainingDays": ["startAt: DateTime", "endAt: DateTime", "day: Date"],
+    "athletes": "JSON type string[] (maybe)",
+    "active": "boolean",
+    "franchiseId": "string",
+    "tenantId": "string"
+  }
+
+  json TeamsAthletes{
+    "teamId": "string",
+    "athleteId": "string"
+  }
+
+  json Categories{
+    "id": "string",
+    "name": "string",
+    "shortDescription": "string",
+    "franchises": "JSON.Type string[]",
+    "tenantId": "string"
+  }
+
+  json MedicalTerms{
+    "id": "string",
+    "medicalCertificateUrl": "string",
+    "athelteId": "string",
+    "signatureUrl": "string",
+    "status": "string",
+    "franchiseId": "string",
+    "responsableId": "string",
+    "tenantId": "string"
+  }
+}
+
+admin --> Tenant
+admin --> CA
+admin --> UA
+admin --> FA
+admin --> FAS
+admin --> DA
+admin --> CT
+admin --> UT
+admin --> FT
+admin --> FTS
+admin --> DT
+admin --> CC
+admin --> UC
+admin --> DC
+admin --> FC
+admin --> FCS
+admin --> CMR
+admin --> UMT
+admin --> DMT
+admin --> FMT
+admin --> FMTS
+admin --> AMT
+
+coach --> Tenant
+coach --> CA
+coach --> UA
+coach --> FA
+coach --> FAS
+coach --> DA
+coach --> CT
+coach --> UT
+coach --> FT
+coach --> FTS
+coach --> DT
+coach --> CC
+coach --> UC
+coach --> DC
+coach --> FC
+coach --> FCS
+
+athlete --> Tenant
+athlete --> UA
+athlete --> FA
+athlete --> DA
+athlete --> CT
+athlete --> UT
+athlete --> FT
+athlete --> FTS
+athlete --> DT
+athlete --> FC
+athlete --> FCS
+
+CA --> Database
+UA --> Database
+FA --> Database
+FAS --> Database
+DA --> Database
+CT --> Database
+UT --> Database
+FT --> Database
+FTS --> Database
+CC --> Database
+UC --> Database
+DC --> Database
+FC --> Database
+FCS --> Database
+UMT --> Database
+DMT --> Database
+FMT --> Database
+FMTS --> Database
+AMT --> Database
+
+@enduml

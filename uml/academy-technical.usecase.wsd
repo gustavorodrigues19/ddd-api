@@ -1,0 +1,110 @@
+@startuml
+allowmixing
+
+left to right direction
+actor "Administrator" as admin
+actor "Coach" as coach
+
+rectangle AcademyAdmUsecases {
+  usecase "Create Report Model" as CRM
+  usecase "Update Report Model" as URM
+  usecase "Delete Report Model" as DRM
+  usecase "Find Report Model" as FRM
+  usecase "Find Report Models" as FRMS
+  
+  usecase "Create Attendance List" as CAL
+  usecase "Update Attendance List" as UAL
+  usecase "Delete Attendance List" as DAL
+  usecase "Find Attendance List" as FAL
+  usecase "Find Attendance Lists" as FALS
+
+  usecase "Create Physical Performance" as CPP
+  usecase "Update Physical Performance" as UPP
+  usecase "Delete Physical Performance" as DPP
+  usecase "Find Physical Performance" as FPP
+  usecase "Find Physical Performances" as FPPS
+}
+
+rectangle Database {
+  json ReportModels {
+    "id":"string",
+    "name":"string",
+    "shortDescription":"string",
+    "fields": "JSON type generic object[]",
+    "franchises": "JSON type string[]",
+    "tenantId": "string"
+  }
+
+  json AttendanceLists {
+    "id": "string",
+    "attendanceDay": "string",
+    "attendanceList": "JSON type { athleteId, status }[]",
+    "franchiseId": "string",
+    "tenantId": "string",
+    "createdAt": "Date",
+    "updatedAt": "Date",
+    "tenantId": "string"
+  }
+
+  json PhysicalPerformances{
+    "id": "string",
+    "startDate": "Date",
+    "endDate": "Date",
+    "teamId": "string",
+    "reportModelId": "string",
+    "franchiseId": "string",
+    "tenantId": "string"
+  }
+}
+
+admin --> Tenant
+admin --> CRM
+admin --> URM
+admin --> DRM
+admin --> FRM
+admin --> FRMS
+
+admin --> CAL
+admin --> UAL
+admin --> DAL
+admin --> FAL
+admin --> FALS
+
+admin --> CPP
+admin --> UPP
+admin --> DPP
+admin --> FPP
+admin --> FPPS
+
+coach --> Tenant
+coach --> CRM
+coach --> URM
+coach --> DRM
+coach --> FRM
+coach --> FRMS
+
+coach --> CAL
+coach --> UAL
+coach --> DAL
+coach --> FAL
+coach --> FALS
+
+CRM --> Database
+URM --> Database
+DRM --> Database
+FRM --> Database
+FRMS --> Database
+
+CAL --> Database
+UAL --> Database
+DAL --> Database
+FAL --> Database
+FALS --> Database
+
+CPP --> Database
+UPP --> Database
+DPP --> Database
+FPP --> Database
+FPPS --> Database
+
+@enduml
