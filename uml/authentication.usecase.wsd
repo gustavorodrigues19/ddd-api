@@ -3,7 +3,7 @@ allowmixing
 
 left to right direction
 
-actor "User" as user
+actor "Admin" as admin
 
 rectangle Usecases {
   usecase "Create user" as CU
@@ -11,6 +11,12 @@ rectangle Usecases {
   usecase "Deactivate" as DU
   usecase "Authentication" as ATC
   usecase "Authorization" as ATR
+
+  usecase "Create Access Group" as CAG
+  usecase "Update Access Group" as UAG
+  usecase "Delete Access Group" as DAG
+  usecase "Find Access Group" as FAG
+  usecase "Find Access Groups" as FAGS
 }
 
 rectangle Database {
@@ -46,16 +52,30 @@ rectangle Database {
   }
 }
 
-user --> Tenant
-user --> ATC
-user --> ATR
-user --> CU
-user --> UU
-user --> DU
+admin --> Tenant
+
+admin --> CU
+admin --> UU
+admin --> DU
+admin --> ATC
+admin --> ATR
+
+admin --> CAG
+admin --> UAG
+admin --> DAG
+admin --> FAG
+admin --> FAGS
+
 CU --> Database
 UU --> Database
+DU --> Database
 ATC --> Database
 ATR --> Database
-DU --> Database
+
+CAG --> Database
+UAG --> Database
+DAG --> Database
+FAG --> Database
+FAGS --> Database
 
 @enduml

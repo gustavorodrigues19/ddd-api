@@ -25,6 +25,12 @@ rectangle AcademyAdmUsecases {
   usecase "Find Category" as FC
   usecase "Find Categories" as FCS
 
+  usecase "Create Experimental Training" as CET
+  usecase "Update Experimental Training" as UET
+  usecase "Delete Experimental Training" as DET
+  usecase "Find Experimental Training" as FET
+  usecase "Find Experimental Trainings" as FETS
+
   usecase "Create Medical Term" as CMR
   usecase "Update Medical Term" as UMT
   usecase "Delete Medical Term" as DMT
@@ -81,6 +87,15 @@ rectangle Database {
     "responsableId": "string",
     "tenantId": "string"
   }
+
+   json ExperimentalTraining{
+    "id": "string",
+    "name": "string",
+    "categoryId": "string",
+    "status": "string",
+    "franchiseId": "string",
+    "tenantId": "string"
+  }
 }
 
 admin --> Tenant
@@ -105,6 +120,11 @@ admin --> DMT
 admin --> FMT
 admin --> FMTS
 admin --> AMT
+admin --> CET
+admin --> UET
+admin --> DET
+admin --> FET
+admin --> FETS
 
 coach --> Tenant
 coach --> CA
