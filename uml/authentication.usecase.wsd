@@ -27,9 +27,9 @@ rectangle Database {
    "document":"string",
    "role": "string",
    "password": "string",
-   "active": "boolean",
+   "isActive": "boolean",
    "tenantId": "string",
-   "franchises": "JSON.type string[]",
+   "franchisesId": "JSON.type string[]",
    "accessGroupId": "string"
   }
 
