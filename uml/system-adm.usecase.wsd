@@ -6,9 +6,9 @@ rectangle Database {
     "id":"string",
     "name":"string",
     "domain": "domain",
-    "cnpj":"string",
+    "document":"string",
     "planId": "string",
-    "active": "boolean"
+    "isActive": "boolean"
   }
 
   json Plans {

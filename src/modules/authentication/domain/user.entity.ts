@@ -12,8 +12,8 @@ type UserProps = {
   role: string
   franchisesIds: string[]
   accessGroupId: string
-  isActive: boolean
   tenantId: string
+  isActive?: boolean
   createdAt?: Date
   updatedAt?: Date
 }
@@ -37,9 +37,13 @@ export default class User extends BaseEntity implements AggregateRoot {
     this._document = props.document
     this._role = props.role
     this._franchisesIds = props.franchisesIds
-    this._isActive = props.isActive
+    this._isActive = props.isActive || true
     this._accessGroupId = props.accessGroupId
     this._tenantId = props.tenantId
+  }
+
+  activate() {
+    this._isActive = true
   }
 
   get name() {

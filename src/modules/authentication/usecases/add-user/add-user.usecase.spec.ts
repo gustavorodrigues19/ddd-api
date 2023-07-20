@@ -1,4 +1,4 @@
-import { validationErrorOutput } from '../../../../__mocks__/modules/authentication/usecases/add-user-usecase.mock'
+import { validationErrorAddUserUseCase } from '../../../../__mocks__/modules/authentication/usecases/add-user-usecase.mock'
 import AddUserUseCase from './add-user.usecase'
 import { UserInputDto } from './add-user.usecase.dto'
 
@@ -21,7 +21,7 @@ describe('Add user useCase', () => {
       name: 'User 1',
       email: 'x@x.com',
       password: '123456',
-      document: '1234567891011',
+      document: '693.392.710-50',
       role: 'admin',
       franchisesIds: ['1', '2'],
       accessGroupId: '1',
@@ -55,7 +55,7 @@ describe('Add user useCase', () => {
     try {
       await addUseCase.execute(input)
     } catch (error: any) {
-      expect(error?.error).toEqual(validationErrorOutput)
+      expect(error?.error).toEqual(validationErrorAddUserUseCase)
     }
   })
 })

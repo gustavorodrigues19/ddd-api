@@ -1,4 +1,4 @@
-export const validationErrorOutput = [
+export const validationErrorAddUserUseCase = [
   {
     context: { key: 'name', label: 'name', value: '' },
     message: '"name" is not allowed to be empty',
