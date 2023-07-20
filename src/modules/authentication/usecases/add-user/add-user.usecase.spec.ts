@@ -1,3 +1,4 @@
+import { validationErrorOutput } from '../../../../__mocks__/modules/authentication/usecases/add-user-usecase.mock'
 import AddUserUseCase from './add-user.usecase'
 import { UserInputDto } from './add-user.usecase.dto'
 
@@ -20,7 +21,7 @@ describe('Add user useCase', () => {
       name: 'User 1',
       email: 'x@x.com',
       password: '123456',
-      document: '123456',
+      document: '1234567891011',
       role: 'admin',
       franchisesIds: ['1', '2'],
       accessGroupId: '1',
@@ -34,5 +35,27 @@ describe('Add user useCase', () => {
     expect(result.id).toBeDefined()
     expect(result.name).toEqual(input.name)
     expect(result.email).toEqual(input.email)
+  })
+
+  it('should return a validation error', async () => {
+    const repository = MockRepository()
+    const addUseCase = new AddUserUseCase(repository)
+
+    const input: UserInputDto = {
+      name: '',
+      email: '',
+      password: '',
+      document: '',
+      role: '',
+      franchisesIds: ['1', '2'],
+      accessGroupId: '1',
+      isActive: true,
+      tenantId: '1',
+    }
+    try {
+      await addUseCase.execute(input)
+    } catch (error: any) {
+      expect(error?.error).toEqual(validationErrorOutput)
+    }
   })
 })

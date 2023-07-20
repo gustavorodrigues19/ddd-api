@@ -11,12 +11,12 @@ export default class AddUserUseCase {
     this._userRepository = userRepository
   }
 
-  validate(input: UserInputDto): Joi.ValidationResult {
+  validate(input: UserInputDto): void {
     const schema = Joi.object({
-      name: Joi.string().required(),
+      name: Joi.string().min(2).max(45).required(),
       email: Joi.string().email().required(),
-      password: Joi.string().required(),
-      document: Joi.string().required(),
+      password: Joi.string().min(2).required(),
+      document: Joi.string().min(11).max(15).required(),
       role: Joi.string().required(),
       franchisesIds: Joi.array().items(Joi.string()).required(),
       accessGroupId: Joi.string().required(),
@@ -24,12 +24,13 @@ export default class AddUserUseCase {
       tenantId: Joi.string().required(),
     })
 
-    return schema.validate(input)
+    const { error } = schema.validate(input, { abortEarly: false })
+
+    if (error) throw { error: error.details }
   }
 
   async execute(input: UserInputDto): Promise<UserOutputDto> {
-    const validation = this.validate(input)
-    console.log(validation)
+    this.validate(input)
     const props = {
       id: new Id(input.id) || new Id(),
       name: input.name,

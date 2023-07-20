@@ -1,5 +1,6 @@
 import BaseEntity from '../../@shared/domain/entity/base.entity'
 import AggregateRoot from '../../@shared/domain/entity/aggregate-root.interface'
+import bcrypt from 'bcrypt'
 import Id from '../../@shared/domain/value-object/id.value-object'
 
 type UserProps = {
@@ -32,7 +33,7 @@ export default class User extends BaseEntity implements AggregateRoot {
     super(props.id, props.createdAt, props.updatedAt)
     this._name = props.name
     this._email = props.email
-    this._password = props.password
+    this._password = bcrypt.hashSync(props.password, 10)
     this._document = props.document
     this._role = props.role
     this._franchisesIds = props.franchisesIds
