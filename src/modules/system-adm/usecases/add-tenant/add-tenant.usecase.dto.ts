@@ -2,7 +2,7 @@ export interface AddTenantInputDto {
   name: string
   document: string
   domain: string
-  plan: string
+  planId: string
   isActive: boolean
 }
 
@@ -16,6 +16,8 @@ export interface AddTenantOutputDto {
     name: string
     description: string
     price: number
+    createdAt: Date
+    updatedAt: Date
   }
   isActive: boolean
   createdAt: Date

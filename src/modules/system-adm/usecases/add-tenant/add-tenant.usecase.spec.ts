@@ -28,7 +28,7 @@ describe('Add tenant use case', () => {
       name: 'Tesla Inc.',
       document: '21.159.326/0001-36',
       domain: 'www.test.com',
-      plan: 'basic',
+      planId: '1',
       isActive: true,
     }
 
@@ -38,5 +38,28 @@ describe('Add tenant use case', () => {
     expect(tenantRepository.add).toHaveBeenCalled()
     expect(result.id).toBeDefined()
     expect(result.name).toEqual(input.name)
+  })
+
+  it('should not add a tenant', async () => {
+    const tenantRepository = MockTenantRepository()
+    const planRepository = MockPlanRepository()
+    planRepository.findById = jest.fn((): any => null)
+    const addUseCase = new AddTenantUseCase(tenantRepository, planRepository)
+
+    const input: AddTenantInputDto = {
+      name: 'Tesla Inc.',
+      document: '21.159.326/0001-36',
+      domain: 'www.test.com',
+      planId: '1',
+      isActive: true,
+    }
+
+    try {
+      await addUseCase.execute(input)
+    } catch (error: any) {
+      expect(error.message).toEqual('Plan not found')
+      expect(planRepository.findById).toHaveBeenCalled()
+      expect(tenantRepository.add).not.toHaveBeenCalled()
+    }
   })
 })

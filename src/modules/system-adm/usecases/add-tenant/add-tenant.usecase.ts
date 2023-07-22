@@ -13,7 +13,7 @@ export default class AddTenantUseCase {
   }
 
   async execute(input: AddTenantInputDto): Promise<AddTenantOutputDto> {
-    const plan = await this._planRepository.findById(input.plan)
+    const plan = await this._planRepository.findById(input.planId)
 
     if (!plan) throw new Error('Plan not found')
 
@@ -39,6 +39,8 @@ export default class AddTenantUseCase {
         name: tenant.plan.name,
         description: tenant.plan.description,
         price: tenant.plan.price,
+        createdAt: tenant.plan.createdAt,
+        updatedAt: tenant.plan.updatedAt,
       },
       isActive: tenant.isActive,
       createdAt: tenant.createdAt,
