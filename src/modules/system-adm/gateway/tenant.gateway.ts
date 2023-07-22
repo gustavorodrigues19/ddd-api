@@ -1,8 +1,8 @@
 import Tenant from '../domain/tenant.entity'
 
 export default interface TenantGateway {
-  add(tenant: Tenant): Promise<void>
-  update(tenant: Tenant): Promise<void>
-  findById(id: string): Promise<void>
-  find(): Promise<void>
+  add(tenant: Tenant): Promise<Tenant>
+  update(tenant: Tenant): Promise<Tenant>
+  findById(id: string): Promise<Tenant>
+  find(): Promise<Tenant[]>
 }
