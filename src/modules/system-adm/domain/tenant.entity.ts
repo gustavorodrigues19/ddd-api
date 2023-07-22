@@ -7,7 +7,7 @@ type TenantProps = {
   name: string
   document: string
   domain: string
-  plan: string
+  planId: string
   isActive?: boolean
   createdAt?: Date
   updatedAt?: Date
@@ -17,7 +17,7 @@ export default class Tenant extends BaseEntity implements AggregateRoot {
   private _name: string
   private _document: string
   private _domain: string
-  private _plan: string
+  private _planId: string
   private _isActive: boolean
 
   constructor(props: TenantProps) {
@@ -25,7 +25,7 @@ export default class Tenant extends BaseEntity implements AggregateRoot {
     this._name = props.name
     this._document = props.document
     this._domain = props.domain
-    this._plan = props.plan
+    this._planId = props.planId
     this._isActive = props.isActive || true
   }
 
@@ -45,8 +45,8 @@ export default class Tenant extends BaseEntity implements AggregateRoot {
     return this._domain
   }
 
-  get plan() {
-    return this._plan
+  get planId() {
+    return this._planId
   }
 
   get isActive() {

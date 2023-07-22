@@ -8,14 +8,18 @@ rectangle Database {
     "domain": "domain",
     "document":"string",
     "planId": "string",
-    "isActive": "boolean"
+    "isActive": "boolean",
+    "createdAt": "DateTime",
+    "updatedAt": "DateTime"
   }
 
   json Plans {
     "id": "string",
     "name":"string",
     "description": "string",
-    "value": "number"
+    "price": "number",
+    "createdAt": "DateTime",
+    "updatedAt": "DateTime"
   }
 }
 
