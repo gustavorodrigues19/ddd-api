@@ -16,7 +16,7 @@ export default class TenantsRepository implements TenantGateway {
       domain: tenantInput.domain,
       document: tenantInput.document,
       isActive: tenantInput.isActive,
-      plan: { connect: { id: tenantInput.planId } },
+      plan: { connect: { id: tenantInput.plan.id.id } },
     }
     await this._prismaOrm.tenants.create({ data: tenant })
   }

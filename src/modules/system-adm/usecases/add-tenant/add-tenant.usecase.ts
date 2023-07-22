@@ -1,20 +1,27 @@
+import PlanGateway from '../../gateway/plan.gateway'
 import Tenant from '../../domain/tenant.entity'
 import TenantGateway from '../../gateway/tenant.gateway'
 import { AddTenantInputDto, AddTenantOutputDto } from './add-tenant.usecase.dto'
 
 export default class AddTenantUseCase {
   private _tenantRepository: TenantGateway
+  private _planRepository: PlanGateway
 
-  constructor(tenantRepository: TenantGateway) {
+  constructor(tenantRepository: TenantGateway, planRepository: PlanGateway) {
     this._tenantRepository = tenantRepository
+    this._planRepository = planRepository
   }
 
   async execute(input: AddTenantInputDto): Promise<AddTenantOutputDto> {
+    const plan = await this._planRepository.findById(input.plan)
+
+    if (!plan) throw new Error('Plan not found')
+
     const tenant = new Tenant({
       name: input.name,
       document: input.document,
       domain: input.domain,
-      plan: input.plan,
+      plan,
       isActive: input.isActive,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -27,7 +34,12 @@ export default class AddTenantUseCase {
       name: tenant.name,
       document: tenant.document,
       domain: tenant.domain,
-      plan: tenant.plan,
+      plan: {
+        id: tenant.plan.id.id,
+        name: tenant.plan.name,
+        description: tenant.plan.description,
+        price: tenant.plan.price,
+      },
       isActive: tenant.isActive,
       createdAt: tenant.createdAt,
       updatedAt: tenant.updatedAt,

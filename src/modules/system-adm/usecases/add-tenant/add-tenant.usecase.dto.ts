@@ -11,7 +11,12 @@ export interface AddTenantOutputDto {
   name: string
   document: string
   domain: string
-  plan: string
+  plan: {
+    id: string
+    name: string
+    description: string
+    price: number
+  }
   isActive: boolean
   createdAt: Date
   updatedAt: Date

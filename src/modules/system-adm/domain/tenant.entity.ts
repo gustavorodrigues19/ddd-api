@@ -1,13 +1,14 @@
 import Id from '../../@shared/domain/value-object/id.value-object'
 import AggregateRoot from '../../@shared/domain/entity/aggregate-root.interface'
 import BaseEntity from '../../@shared/domain/entity/base.entity'
+import Plan from './plan.entity'
 
 type TenantProps = {
   id?: Id
   name: string
   document: string
   domain: string
-  planId: string
+  plan: Plan
   isActive?: boolean
   createdAt?: Date
   updatedAt?: Date
@@ -17,7 +18,7 @@ export default class Tenant extends BaseEntity implements AggregateRoot {
   private _name: string
   private _document: string
   private _domain: string
-  private _planId: string
+  private _plan: Plan
   private _isActive: boolean
 
   constructor(props: TenantProps) {
@@ -25,7 +26,7 @@ export default class Tenant extends BaseEntity implements AggregateRoot {
     this._name = props.name
     this._document = props.document
     this._domain = props.domain
-    this._planId = props.planId
+    this._plan = props.plan
     this._isActive = props.isActive || true
   }
 
@@ -45,11 +46,11 @@ export default class Tenant extends BaseEntity implements AggregateRoot {
     return this._domain
   }
 
-  get planId() {
-    return this._planId
-  }
-
   get isActive() {
     return this._isActive
+  }
+
+  get plan() {
+    return this._plan
   }
 }
