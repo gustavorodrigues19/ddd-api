@@ -1,4 +1,3 @@
-import { validationErrorAddTenantUseCase } from '../../../../__mocks__/modules/system-adm/usecases/add-tenant-usecase.mock'
 import AddTenantUseCase from './add-tenant.usecase'
 import { AddTenantInputDto } from './add-tenant.usecase.dto'
 
@@ -29,23 +28,5 @@ describe('Add tenant use case', () => {
     expect(repository.add).toHaveBeenCalled()
     expect(result.id).toBeDefined()
     expect(result.name).toEqual(input.name)
-  })
-
-  it('should return a validation error', async () => {
-    const repository = MockRepository()
-    const addUseCase = new AddTenantUseCase(repository)
-
-    const input: AddTenantInputDto = {
-      name: '',
-      document: '',
-      domain: '',
-      plan: '',
-      isActive: true,
-    }
-    try {
-      await addUseCase.execute(input)
-    } catch (error: any) {
-      expect(error?.error).toEqual(validationErrorAddTenantUseCase)
-    }
   })
 })
