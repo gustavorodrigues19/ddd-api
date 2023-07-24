@@ -1,13 +1,8 @@
-export interface UpdateTenantInputDto {
+export interface FindTenantInputDto {
   id: string
-  name: string
-  document: string
-  domain: string
-  planId: string
-  isActive: boolean
 }
 
-export interface UpdateTenantOutputDto {
+export interface TenantOutputDto {
   id: string
   name: string
   document: string

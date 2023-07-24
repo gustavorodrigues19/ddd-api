@@ -53,4 +53,8 @@ export default class Tenant extends BaseEntity implements AggregateRoot {
   get plan() {
     return this._plan
   }
+
+  set plan(plan: Plan) {
+    this._plan = plan
+  }
 }

@@ -1,5 +1,5 @@
 import TenantGateway from '../../gateway/tenant.gateway'
-import { FindTenantsOutputDto } from './find-tenants.usecase.dto'
+import { TenantOutputDto } from './find-tenant.usecase.dto'
 
 export default class FindTenantsUseCase {
   private _tenantRepository: TenantGateway
@@ -8,10 +8,12 @@ export default class FindTenantsUseCase {
     this._tenantRepository = tenantRepository
   }
 
-  async execute(): Promise<FindTenantsOutputDto> {
-    const foundTenants = await this._tenantRepository.find()
+  async execute(id: string): Promise<TenantOutputDto> {
+    const tenant = await this._tenantRepository.findById(id)
 
-    const tenants = foundTenants.map((tenant) => ({
+    if (!tenant) throw new Error('Tenant not found')
+
+    return {
       id: tenant.id.id,
       name: tenant.name,
       document: tenant.document,
@@ -26,13 +28,6 @@ export default class FindTenantsUseCase {
       isActive: tenant.isActive,
       createdAt: tenant.createdAt,
       updatedAt: tenant.updatedAt,
-    }))
-
-    return {
-      tenants,
-      total: 0,
-      offset: 0,
-      pageSize: 200,
     }
   }
 }
