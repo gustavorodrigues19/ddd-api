@@ -1,7 +1,8 @@
+import UseCaseInterface from 'modules/@shared/usecase/use-case.interface'
 import TenantGateway from '../../gateway/tenant.gateway'
 import { FindTenantsOutputDto } from './find-tenants.usecase.dto'
 
-export default class FindTenantsUseCase {
+export default class FindTenantsUseCase implements UseCaseInterface {
   private _tenantRepository: TenantGateway
 
   constructor(tenantRepository: TenantGateway) {

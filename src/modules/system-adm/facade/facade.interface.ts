@@ -32,7 +32,7 @@ export interface TenantOutputDto {
   updatedAt: Date
 }
 
-export interface TenantFacadeInterface {
+export interface SystemAdminInterface {
   findTenants(): Promise<TenantOutputDto[]>
   createTenant(input: CreateTenantInputDto): Promise<TenantOutputDto>
   updateTenant(input: UpdateTenantInputDto): Promise<TenantOutputDto>

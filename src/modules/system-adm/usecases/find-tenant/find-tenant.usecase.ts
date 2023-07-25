@@ -1,7 +1,7 @@
 import TenantGateway from '../../gateway/tenant.gateway'
 import { TenantOutputDto } from './find-tenant.usecase.dto'
 
-export default class FindTenantsUseCase {
+export default class FindTenantUseCase {
   private _tenantRepository: TenantGateway
 
   constructor(tenantRepository: TenantGateway) {

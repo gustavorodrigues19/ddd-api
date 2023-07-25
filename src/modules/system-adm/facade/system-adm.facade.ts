@@ -1,15 +1,15 @@
 import UseCaseInterface from '../../@shared/usecase/use-case.interface'
 import {
   CreateTenantInputDto,
-  TenantFacadeInterface,
+  SystemAdminInterface,
   TenantOutputDto,
   UpdateTenantInputDto,
 } from './facade.interface'
 
-export default class TenantFacade implements TenantFacadeInterface {
+export default class SystemAdminFacade implements SystemAdminInterface {
   constructor(
     private findTenantsUseCase: UseCaseInterface,
-    private createTenantUseCase: UseCaseInterface,
+    private addTenantUseCase: UseCaseInterface,
     private updateTenantUseCase: UseCaseInterface,
     private findTenantUseCase: UseCaseInterface
   ) {}
@@ -19,7 +19,7 @@ export default class TenantFacade implements TenantFacadeInterface {
   }
 
   async createTenant(input: CreateTenantInputDto): Promise<TenantOutputDto> {
-    return this.createTenantUseCase.execute(input)
+    return this.addTenantUseCase.execute(input)
   }
 
   async updateTenant(input: UpdateTenantInputDto): Promise<TenantOutputDto> {
