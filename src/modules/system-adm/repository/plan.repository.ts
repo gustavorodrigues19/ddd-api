@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import PlanGateway from '../gateway/plan.gateway'
 import Plan from '../domain/plan.entity'
-import Id from 'modules/@shared/domain/value-object/id.value-object'
+import Id from '../../@shared/domain/value-object/id.value-object'
 
 export default class PlansRepository implements PlanGateway {
   private _prismaOrm: PrismaClient
