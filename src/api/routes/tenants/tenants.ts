@@ -21,8 +21,8 @@ const TenantRoutes: FastifyPluginAsync = async (server: FastifyInstance) => {
       const { id } = req.params as ParamsGetTenantById
 
       const systemAdmFactory = SystemAdminFactory.create()
+      const tenant = await systemAdmFactory.findTenant(id)
 
-      const tenant = systemAdmFactory.findTenant(id)
       return await reply.code(200).send(tenant)
     } catch (error) {
       return await reply.status(500).send(error)
@@ -42,7 +42,7 @@ const TenantRoutes: FastifyPluginAsync = async (server: FastifyInstance) => {
       }
 
       const systemAdmFactory = SystemAdminFactory.create()
-      const tenant = systemAdmFactory.createTenant(createTenantInput)
+      const tenant = await systemAdmFactory.createTenant(createTenantInput)
 
       return await reply.code(200).send(tenant)
     } catch (error) {
@@ -65,7 +65,7 @@ const TenantRoutes: FastifyPluginAsync = async (server: FastifyInstance) => {
       }
 
       const systemAdmFactory = SystemAdminFactory.create()
-      const tenant = systemAdmFactory.updateTenant(updateTenantInput)
+      const tenant = await systemAdmFactory.updateTenant(updateTenantInput)
 
       return await reply.code(200).send(tenant)
     } catch (error) {

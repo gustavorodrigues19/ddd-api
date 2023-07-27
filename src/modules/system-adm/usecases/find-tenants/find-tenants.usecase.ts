@@ -21,6 +21,7 @@ export default class FindTenantsUseCase implements UseCaseInterface {
         id: tenant.plan.id.id,
         name: tenant.plan.name,
         description: tenant.plan.description,
+        price: tenant.plan.price,
         createdAt: tenant.plan.createdAt,
         updatedAt: tenant.plan.updatedAt,
       },
