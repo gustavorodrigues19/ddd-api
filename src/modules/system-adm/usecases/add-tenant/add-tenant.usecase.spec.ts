@@ -1,11 +1,6 @@
+import { mockPlan } from '../../../../api/__mocks__/system-adm.mock'
 import AddTenantUseCase from './add-tenant.usecase'
 import { AddTenantInputDto } from './add-tenant.usecase.dto'
-
-const planMock = {
-  id: '1',
-  name: 'basic',
-  description: 'Basic plan',
-}
 
 const MockTenantRepository = () => ({
   add: jest.fn(),
@@ -15,7 +10,7 @@ const MockTenantRepository = () => ({
 })
 
 const MockPlanRepository = () => ({
-  findById: jest.fn((): any => planMock),
+  findById: jest.fn((): any => mockPlan),
 })
 
 describe('Add tenant use case', () => {

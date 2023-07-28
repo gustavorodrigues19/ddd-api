@@ -1,7 +1,5 @@
-import Tenant from '../../domain/tenant.entity'
 import UpdateTenantUseCase from './update-tenant.usecase'
-import Id from '../../../@shared/domain/value-object/id.value-object'
-import Plan from '../../domain/plan.entity'
+import { mockPlanEntity, mockTenantEntity } from '../../../__mocks__/system-adm.mock'
 
 const tenantRepository = {
   add: jest.fn(),
@@ -23,28 +21,10 @@ const updateInput = {
   isActive: true,
 }
 
-const plan = new Plan({
-  id: new Id('1'),
-  name: 'basic',
-  description: 'Basic plan',
-  price: 100,
-  createdAt: new Date(),
-  updatedAt: new Date(),
-})
-
-const tenant = new Tenant({
-  id: new Id('1'),
-  name: 'Tesla Inc.',
-  document: '21.159.326/0001-36',
-  domain: 'www.test.com',
-  plan,
-  isActive: true,
-})
-
 describe('Update tenant use case', () => {
   it('should update a tenant', async () => {
-    tenantRepository.findById.mockResolvedValue(tenant)
-    planRepository.findById.mockResolvedValue(plan)
+    tenantRepository.findById.mockResolvedValue(mockTenantEntity)
+    planRepository.findById.mockResolvedValue(mockPlanEntity)
     const updateUseCase = new UpdateTenantUseCase(tenantRepository, planRepository)
 
     const result = await updateUseCase.execute(updateInput)
@@ -66,7 +46,7 @@ describe('Update tenant use case', () => {
   })
 
   it('should not find a plan and throw an error', async () => {
-    tenantRepository.findById.mockResolvedValue(tenant)
+    tenantRepository.findById.mockResolvedValue(mockTenantEntity)
     planRepository.findById.mockResolvedValue(undefined)
 
     const updateUseCase = new UpdateTenantUseCase(tenantRepository, planRepository)
