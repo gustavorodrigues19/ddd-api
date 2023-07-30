@@ -4,29 +4,18 @@
     "es2021": true,
     "jest": true
   },
-  "extends": [
-    "airbnb-typescript",
-    "plugin:import/typescript"
-  ],
+  "extends": ["airbnb-typescript", "plugin:import/typescript"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
-    "project": [
-      "./tsconfig.json"
-    ],
+    "project": ["./tsconfig.json"],
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": [
-    "@typescript-eslint",
-    "import",
-    "prettier"
-  ],
-  "ignorePatterns": [
-    "jest.config.js"
-  ],
+  "plugins": ["@typescript-eslint", "import", "prettier"],
+  "ignorePatterns": ["jest.config.js"],
   "rules": {
     "react/jsx-filename-extension": 0,
     "no-unused-vars": "error",
@@ -34,19 +23,6 @@
     "@typescript-eslint/semi": 0,
     "@typescript-eslint/comma-dangle": 0,
     "@typescript-eslint/lines-between-class-members": 0,
-    "import/no-extraneous-dependencies": 0,
-    "prettier/prettier": [
-      "error",
-      {
-        "trailingComma": "es5",
-        "singleQuote": true,
-        "printWidth": 100,
-        "tabWidth": 2,
-        "semi": false,
-        "endOfLine": "auto",
-        "bracketSpacing": true,
-        "jsxBracketSameLine": true
-      }
-    ]
+    "import/no-extraneous-dependencies": 0
   }
 }
