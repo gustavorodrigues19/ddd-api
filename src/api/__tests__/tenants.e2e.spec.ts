@@ -1,5 +1,5 @@
 import { mockPlan, mockTenant } from '../__mocks__/system-adm.mock'
-import app from '../main'
+import app from '../index'
 
 const responseObj = {
   tenants: [mockTenant],
