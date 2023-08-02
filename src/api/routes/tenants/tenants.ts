@@ -3,6 +3,7 @@ import { FastifyPluginAsync } from 'fastify/types/plugin'
 import fp from 'fastify-plugin'
 import SystemAdminFactory from '../../../modules/system-adm/factory/facade.factory'
 import { CreateTenantInput, ParamsGetTenantById, UpdateTenantInput } from './tenants.interface'
+import { PutTenantSchema } from './schemas.swagger'
 
 const TenantRoutes: FastifyPluginAsync = async (server: FastifyInstance) => {
   server.get('/tenants', async (req, reply) => {
@@ -10,7 +11,7 @@ const TenantRoutes: FastifyPluginAsync = async (server: FastifyInstance) => {
       const systemAdmFactory = SystemAdminFactory.create()
       const tenants = await systemAdmFactory.findTenants()
 
-      return await reply.code(200).send(tenants)
+      return await reply.status(200).send(tenants)
     } catch (error) {
       return await reply.status(500).send(error)
     }
@@ -23,7 +24,7 @@ const TenantRoutes: FastifyPluginAsync = async (server: FastifyInstance) => {
       const systemAdmFactory = SystemAdminFactory.create()
       const tenant = await systemAdmFactory.findTenant(id)
 
-      return await reply.code(200).send(tenant)
+      return await reply.status(200).send(tenant)
     } catch (error) {
       return await reply.status(500).send(error)
     }
@@ -44,13 +45,13 @@ const TenantRoutes: FastifyPluginAsync = async (server: FastifyInstance) => {
       const systemAdmFactory = SystemAdminFactory.create()
       const tenant = await systemAdmFactory.createTenant(createTenantInput)
 
-      return await reply.code(200).send(tenant)
+      return await reply.status(200).send(tenant)
     } catch (error) {
       return await reply.status(500).send(error)
     }
   })
 
-  server.put('/tenants/:id', async (req, reply) => {
+  server.put('/tenants/:id', PutTenantSchema, async (req, reply) => {
     try {
       const { id } = req.params as ParamsGetTenantById
       const { name, document, domain, planId, isActive } = req.body as CreateTenantInput
@@ -67,7 +68,7 @@ const TenantRoutes: FastifyPluginAsync = async (server: FastifyInstance) => {
       const systemAdmFactory = SystemAdminFactory.create()
       const tenant = await systemAdmFactory.updateTenant(updateTenantInput)
 
-      return await reply.code(200).send(tenant)
+      return await reply.status(200).send(tenant)
     } catch (error) {
       return await reply.status(500).send(error)
     }

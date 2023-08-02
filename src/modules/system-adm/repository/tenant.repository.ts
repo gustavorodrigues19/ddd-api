@@ -27,16 +27,19 @@ export default class TenantsRepository implements TenantGateway {
       domain: tenantInput.domain,
       document: tenantInput.document,
       isActive: tenantInput.isActive,
+      plan: { connect: { id: tenantInput.plan.id.id } },
     }
     await this._prismaOrm.tenants.update({
       where: { id: tenantInput.id.id },
       data: tenant,
+      include: { plan: true },
     })
   }
 
   async findById(id: string): Promise<Tenant | null> {
     const result = await this._prismaOrm.tenants.findUnique({
       where: { id },
+      include: { plan: true },
     })
     if (!result) return null
 
