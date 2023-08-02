@@ -5,7 +5,10 @@ import swagger from '@fastify/swagger'
 import swaggerUi from '@fastify/swagger-ui'
 import { swaggerGlobalOptions } from './infra/swagger'
 
-const app = fastify({ logger: true, disableRequestLogging: true })
+const app = fastify({
+  logger: true,
+  disableRequestLogging: true,
+})
 
 app.register(swagger, swaggerGlobalOptions)
 app.register(swaggerUi, {

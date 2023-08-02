@@ -23,7 +23,6 @@
     "@swc/jest": "^0.2.26",
     "@types/bcrypt": "^5.0.0",
     "@types/jest": "^29.5.3",
-    "@types/joi": "^17.2.3",
     "@types/node": "^20.4.2",
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
@@ -51,7 +50,6 @@
     "bcrypt": "^5.1.0",
     "fastify": "^4.20.0",
     "fastify-plugin": "^4.5.1",
-    "joi": "^17.9.2",
     "prisma": "^5.0.0",
     "uuid": "^9.0.0"
   },

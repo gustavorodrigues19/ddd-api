@@ -3,7 +3,7 @@ import { FastifyPluginAsync } from 'fastify/types/plugin'
 import fp from 'fastify-plugin'
 import SystemAdminFactory from '../../../modules/system-adm/factory/facade.factory'
 import { CreateTenantInput, ParamsGetTenantById, UpdateTenantInput } from './tenants.interface'
-import { PutTenantSchema } from './schemas.swagger'
+import { PutTenantSchema } from './tenants.schems'
 
 const TenantRoutes: FastifyPluginAsync = async (server: FastifyInstance) => {
   server.get('/tenants', async (req, reply) => {
