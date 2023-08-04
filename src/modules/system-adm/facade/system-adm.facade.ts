@@ -3,6 +3,7 @@ import {
   CreateTenantInputDto,
   SystemAdminInterface,
   TenantOutputDto,
+  TenantsOutputDto,
   UpdateTenantInputDto,
 } from './facade.interface'
 
@@ -14,8 +15,8 @@ export default class SystemAdminFacade implements SystemAdminInterface {
     private findTenantUseCase: UseCaseInterface
   ) {}
 
-  async findTenants(): Promise<TenantOutputDto[]> {
-    return this.findTenantsUseCase.execute()
+  async findTenants(skip: number): Promise<TenantsOutputDto> {
+    return this.findTenantsUseCase.execute(skip)
   }
 
   async createTenant(input: CreateTenantInputDto): Promise<TenantOutputDto> {

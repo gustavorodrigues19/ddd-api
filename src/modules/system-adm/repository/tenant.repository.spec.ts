@@ -26,6 +26,7 @@ jest.mock('@prisma/client', () => ({
       create: jest.fn(),
       update: jest.fn(),
       findMany: jest.fn(() => [mockTenant]),
+      count: jest.fn(() => 1),
       findUnique: jest.fn(() => mockTenant),
     },
   })),
@@ -56,10 +57,10 @@ describe('Add tenant repository', () => {
     const repository = new TenantsRepository(prismaClient)
     const tenantMapped = TenantMapper.toDomain(mockTenant)
 
-    const result = await repository.find()
+    const result = await repository.find(0, 100)
 
     expect(prismaClient.tenants.findMany).toHaveBeenCalled()
-    expect(result).toEqual([tenantMapped])
+    expect(result).toEqual({ data: [tenantMapped], total: 1 })
   })
 
   it('should find a tenant by id', async () => {

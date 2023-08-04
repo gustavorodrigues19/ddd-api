@@ -23,8 +23,8 @@ export interface TenantDto {
 }
 
 export interface FindTenantsOutputDto {
-  tenants: TenantDto[]
+  data: TenantDto[]
   total: number
-  offset: number
-  pageSize: number
+  skip: number
+  take: number
 }

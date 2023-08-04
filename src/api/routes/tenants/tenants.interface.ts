@@ -2,6 +2,10 @@ export interface ParamsGetTenantById {
   id: string
 }
 
+export interface QueryGetTenants {
+  skip: number
+}
+
 export interface CreateTenantInput {
   name: string
   document: string

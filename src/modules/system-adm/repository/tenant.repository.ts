@@ -1,5 +1,5 @@
 import Tenant from '../domain/tenant.entity'
-import TenantGateway from '../gateway/tenant.gateway'
+import TenantGateway, { TenantFindOutputDto } from '../gateway/tenant.gateway'
 import { PrismaClient, Prisma } from '@prisma/client'
 import TenantMapper from './tenant.mapper'
 
@@ -11,43 +11,70 @@ export default class TenantsRepository implements TenantGateway {
   }
 
   async add(tenantInput: Tenant): Promise<void> {
-    const tenant: Prisma.TenantsCreateInput = {
-      name: tenantInput.name,
-      domain: tenantInput.domain,
-      document: tenantInput.document,
-      isActive: tenantInput.isActive,
-      plan: { connect: { id: tenantInput.plan.id.id } },
+    try {
+      const tenant: Prisma.TenantsCreateInput = {
+        name: tenantInput.name,
+        domain: tenantInput.domain,
+        document: tenantInput.document,
+        isActive: tenantInput.isActive,
+        plan: { connect: { id: tenantInput.plan.id.id } },
+      }
+      await this._prismaOrm.tenants.create({ data: tenant })
+    } catch (error) {
+      throw new Error('Error on create tenant.')
     }
-    await this._prismaOrm.tenants.create({ data: tenant })
   }
 
   async update(tenantInput: Tenant): Promise<void> {
-    const tenant: Prisma.TenantsUpdateInput = {
-      name: tenantInput.name,
-      domain: tenantInput.domain,
-      document: tenantInput.document,
-      isActive: tenantInput.isActive,
-      plan: { connect: { id: tenantInput.plan.id.id } },
+    try {
+      const tenant: Prisma.TenantsUpdateInput = {
+        name: tenantInput.name,
+        domain: tenantInput.domain,
+        document: tenantInput.document,
+        isActive: tenantInput.isActive,
+        plan: { connect: { id: tenantInput.plan.id.id } },
+      }
+      await this._prismaOrm.tenants.update({
+        where: { id: tenantInput.id.id },
+        data: tenant,
+        include: { plan: true },
+      })
+    } catch (error) {
+      throw new Error('Error on update tenant.')
     }
-    await this._prismaOrm.tenants.update({
-      where: { id: tenantInput.id.id },
-      data: tenant,
-      include: { plan: true },
-    })
   }
 
   async findById(id: string): Promise<Tenant | null> {
-    const result = await this._prismaOrm.tenants.findUnique({
-      where: { id },
-      include: { plan: true },
-    })
-    if (!result) return null
+    try {
+      const result = await this._prismaOrm.tenants.findUnique({
+        where: { id },
+        include: { plan: true },
+      })
+      if (!result) return null
 
-    return TenantMapper.toDomain(result)
+      return TenantMapper.toDomain(result)
+    } catch (error) {
+      throw new Error('Error on find tenant.')
+    }
   }
 
-  async find(): Promise<Tenant[]> {
-    const results = await this._prismaOrm.tenants.findMany()
-    return results.map(TenantMapper.toDomain)
+  async find(skip: number, take: number): Promise<TenantFindOutputDto> {
+    try {
+      const results = await this._prismaOrm.tenants.findMany({
+        include: { plan: true },
+        skip,
+        take,
+        orderBy: {
+          name: 'asc',
+        },
+      })
+      const total = await this._prismaOrm.tenants.count()
+      console.log('results', results)
+      const data = results.map(TenantMapper.toDomain)
+      return { data, total }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Error on find tenants.')
+    }
   }
 }

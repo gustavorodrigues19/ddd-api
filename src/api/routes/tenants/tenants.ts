@@ -2,22 +2,33 @@ import { FastifyInstance } from 'fastify/types/instance'
 import { FastifyPluginAsync } from 'fastify/types/plugin'
 import fp from 'fastify-plugin'
 import SystemAdminFactory from '../../../modules/system-adm/factory/facade.factory'
-import { CreateTenantInput, ParamsGetTenantById, UpdateTenantInput } from './tenants.interface'
-import { PutTenantSchema } from './tenants.schems'
+import {
+  CreateTenantInput,
+  ParamsGetTenantById,
+  QueryGetTenants,
+  UpdateTenantInput,
+} from './tenants.interface'
+import {
+  CreateTenantSchema,
+  GetTenantSchema,
+  GetTenantsSchema,
+  UpdateTenantSchema,
+} from './tenants.schema'
 
 const TenantRoutes: FastifyPluginAsync = async (server: FastifyInstance) => {
-  server.get('/tenants', async (req, reply) => {
+  server.get('/tenants', GetTenantsSchema, async (req, reply) => {
     try {
       const systemAdmFactory = SystemAdminFactory.create()
-      const tenants = await systemAdmFactory.findTenants()
+      const { skip } = req.query as QueryGetTenants
+      const response = await systemAdmFactory.findTenants(skip)
 
-      return await reply.status(200).send(tenants)
+      return await reply.status(200).send(response)
     } catch (error) {
       return await reply.status(500).send(error)
     }
   })
 
-  server.get('/tenants/:id', async (req, reply) => {
+  server.get('/tenants/:id', GetTenantSchema, async (req, reply) => {
     try {
       const { id } = req.params as ParamsGetTenantById
 
@@ -30,7 +41,7 @@ const TenantRoutes: FastifyPluginAsync = async (server: FastifyInstance) => {
     }
   })
 
-  server.post('/tenants', async (req, reply) => {
+  server.post('/tenants', CreateTenantSchema, async (req, reply) => {
     try {
       const { name, document, domain, planId, isActive } = req.body as CreateTenantInput
 
@@ -51,7 +62,7 @@ const TenantRoutes: FastifyPluginAsync = async (server: FastifyInstance) => {
     }
   })
 
-  server.put('/tenants/:id', PutTenantSchema, async (req, reply) => {
+  server.put('/tenants/:id', UpdateTenantSchema, async (req, reply) => {
     try {
       const { id } = req.params as ParamsGetTenantById
       const { name, document, domain, planId, isActive } = req.body as CreateTenantInput

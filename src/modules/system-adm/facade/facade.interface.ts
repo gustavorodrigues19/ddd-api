@@ -31,9 +31,15 @@ export interface TenantOutputDto {
   createdAt: Date
   updatedAt: Date
 }
+export interface TenantsOutputDto {
+  data: TenantOutputDto[]
+  total: number
+  skip: number
+  take: number
+}
 
 export interface SystemAdminInterface {
-  findTenants(): Promise<TenantOutputDto[]>
+  findTenants(skip: number): Promise<TenantsOutputDto>
   createTenant(input: CreateTenantInputDto): Promise<TenantOutputDto>
   updateTenant(input: UpdateTenantInputDto): Promise<TenantOutputDto>
   findTenant(id: string): Promise<TenantOutputDto>

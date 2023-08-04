@@ -9,10 +9,11 @@ export default class FindTenantsUseCase implements UseCaseInterface {
     this._tenantRepository = tenantRepository
   }
 
-  async execute(): Promise<FindTenantsOutputDto> {
-    const foundTenants = await this._tenantRepository.find()
+  async execute(skip: number): Promise<FindTenantsOutputDto> {
+    const foundTenants = await this._tenantRepository.find(skip, 100)
 
-    const tenants = foundTenants.map((tenant) => ({
+    const total = foundTenants.total
+    const tenants = foundTenants.data.map((tenant) => ({
       id: tenant.id.id,
       name: tenant.name,
       document: tenant.document,
@@ -31,10 +32,10 @@ export default class FindTenantsUseCase implements UseCaseInterface {
     }))
 
     return {
-      tenants,
-      total: 0,
-      offset: 0,
-      pageSize: 200,
+      data: tenants,
+      total,
+      skip,
+      take: 100,
     }
   }
 }

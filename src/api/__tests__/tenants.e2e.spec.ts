@@ -2,10 +2,10 @@ import { mockPlan, mockTenant } from '../__mocks__/system-adm.mock'
 import app from '../index'
 
 const responseObj = {
-  tenants: [mockTenant],
-  total: 0,
-  offset: 0,
-  pageSize: 200,
+  data: [mockTenant],
+  total: 1,
+  skip: 0,
+  take: 100,
 }
 
 const bodyInput = {
@@ -22,6 +22,7 @@ jest.mock('@prisma/client', () => ({
       create: jest.fn(() => mockTenant),
       update: jest.fn(() => mockTenant),
       findMany: jest.fn(() => [mockTenant]),
+      count: jest.fn(() => 1),
       findUnique: jest.fn(() => mockTenant),
     },
     plans: {
@@ -36,7 +37,7 @@ describe('E2E test for tenants', () => {
   })
 
   it('should query tenants', async () => {
-    const response = await app.inject({ method: 'GET', url: '/tenants' })
+    const response = await app.inject({ method: 'GET', url: '/tenants?skip=0' })
 
     expect(response.json()).toEqual(responseObj)
     expect(response.statusCode).toBe(200)
