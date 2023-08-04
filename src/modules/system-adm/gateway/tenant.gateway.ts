@@ -9,4 +9,5 @@ export default interface TenantGateway {
   update(tenant: Tenant): Promise<void>
   findById(id: string): Promise<Tenant | null>
   find(skip: number, take: number): Promise<TenantFindOutputDto>
+  findByCondition(name: string, document: string): Promise<Tenant[]>
 }

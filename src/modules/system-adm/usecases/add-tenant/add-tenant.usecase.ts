@@ -2,6 +2,7 @@ import PlanGateway from '../../gateway/plan.gateway'
 import Tenant from '../../domain/tenant.entity'
 import TenantGateway from '../../gateway/tenant.gateway'
 import { AddTenantInputDto, AddTenantOutputDto } from './add-tenant.usecase.dto'
+import Plan from '../../domain/plan.entity'
 
 export default class AddTenantUseCase {
   private _tenantRepository: TenantGateway
@@ -12,10 +13,19 @@ export default class AddTenantUseCase {
     this._planRepository = planRepository
   }
 
-  async execute(input: AddTenantInputDto): Promise<AddTenantOutputDto> {
+  private async validate(input: AddTenantInputDto): Promise<Plan> {
     const plan = await this._planRepository.findById(input.planId)
 
     if (!plan) throw new Error('Plan not found')
+
+    const result = await this._tenantRepository.findByCondition(input.name, input.document)
+    if (result?.length > 0) throw new Error('Tenant already exists')
+
+    return plan
+  }
+
+  async execute(input: AddTenantInputDto): Promise<AddTenantOutputDto> {
+    const plan = await this.validate(input)
 
     const tenant = new Tenant({
       name: input.name,

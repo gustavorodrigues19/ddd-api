@@ -58,6 +58,19 @@ export default class TenantsRepository implements TenantGateway {
     }
   }
 
+  async findByCondition(name: string, document: string): Promise<Tenant[]> {
+    try {
+      const result = await this._prismaOrm.tenants.findMany({
+        where: { OR: [{ name }, { document }] },
+        include: { plan: true },
+      })
+
+      return result.map(TenantMapper.toDomain)
+    } catch (error) {
+      throw new Error('Error on find tenant.')
+    }
+  }
+
   async find(skip: number, take: number): Promise<TenantFindOutputDto> {
     try {
       const results = await this._prismaOrm.tenants.findMany({
@@ -69,11 +82,9 @@ export default class TenantsRepository implements TenantGateway {
         },
       })
       const total = await this._prismaOrm.tenants.count()
-      console.log('results', results)
       const data = results.map(TenantMapper.toDomain)
       return { data, total }
     } catch (error) {
-      console.log(error)
       throw new Error('Error on find tenants.')
     }
   }
