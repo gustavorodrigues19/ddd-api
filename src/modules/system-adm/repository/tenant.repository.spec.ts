@@ -1,33 +1,16 @@
 import TenantsRepository from './tenant.repository'
 import { PrismaClient } from '@prisma/client'
 import TenantMapper from './tenant.mapper'
-
-export const mockTenant = {
-  id: '1',
-  name: 'tenant',
-  domain: 'tenant.com',
-  document: '123456789',
-  isActive: true,
-  plan: {
-    id: '1',
-    name: 'basic',
-    description: 'Basic plan',
-    price: 100,
-    createdAt: new Date('2023-07-22T22:31:31'),
-    updatedAt: new Date('2023-07-22T22:31:31'),
-  },
-  createdAt: new Date('2023-07-22T22:31:31'),
-  updatedAt: new Date('2023-07-22T22:31:31'),
-}
+import { mockTenantEntity } from '../../__mocks__/system-adm.mock'
 
 jest.mock('@prisma/client', () => ({
   PrismaClient: jest.fn().mockImplementation(() => ({
     tenants: {
       create: jest.fn(),
       update: jest.fn(),
-      findMany: jest.fn(() => [mockTenant]),
+      findMany: jest.fn(() => [mockTenantEntity]),
       count: jest.fn(() => 1),
-      findUnique: jest.fn(() => mockTenant),
+      findUnique: jest.fn(() => mockTenantEntity),
     },
   })),
 }))
@@ -35,7 +18,7 @@ describe('Add tenant repository', () => {
   it('should add a tenant', async () => {
     const prismaClient = new PrismaClient()
     const repository = new TenantsRepository(prismaClient)
-    const tenantMapped = TenantMapper.toDomain(mockTenant)
+    const tenantMapped = TenantMapper.toDomain(mockTenantEntity)
 
     await repository.add(tenantMapped)
 
@@ -45,7 +28,7 @@ describe('Add tenant repository', () => {
   it('should update a tenant', async () => {
     const prismaClient = new PrismaClient()
     const repository = new TenantsRepository(prismaClient)
-    const tenantMapped = TenantMapper.toDomain(mockTenant)
+    const tenantMapped = TenantMapper.toDomain(mockTenantEntity)
 
     await repository.update(tenantMapped)
 
@@ -55,7 +38,7 @@ describe('Add tenant repository', () => {
   it('should find tenants', async () => {
     const prismaClient = new PrismaClient()
     const repository = new TenantsRepository(prismaClient)
-    const tenantMapped = TenantMapper.toDomain(mockTenant)
+    const tenantMapped = TenantMapper.toDomain(mockTenantEntity)
 
     const result = await repository.find(0, 100)
 
@@ -63,10 +46,21 @@ describe('Add tenant repository', () => {
     expect(result).toEqual({ data: [tenantMapped], total: 1 })
   })
 
+  it('should find tenants', async () => {
+    const prismaClient = new PrismaClient()
+    const repository = new TenantsRepository(prismaClient)
+    const tenantMapped = TenantMapper.toDomain(mockTenantEntity)
+
+    const result = await repository.findByCondition('tenant', '17.868.815/0001-90')
+
+    expect(prismaClient.tenants.findMany).toHaveBeenCalled()
+    expect(result).toEqual([tenantMapped])
+  })
+
   it('should find a tenant by id', async () => {
     const prismaClient = new PrismaClient()
     const repository = new TenantsRepository(prismaClient)
-    const tenantMapped = TenantMapper.toDomain(mockTenant)
+    const tenantMapped = TenantMapper.toDomain(mockTenantEntity)
 
     const result = await repository.findById('1')
 
