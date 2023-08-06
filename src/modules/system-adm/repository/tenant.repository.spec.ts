@@ -1,7 +1,7 @@
 import TenantsRepository from './tenant.repository'
 import { PrismaClient } from '@prisma/client'
 import TenantMapper from './tenant.mapper'
-import { mockTenantEntity } from '../../__mocks__/system-adm.mock'
+import { mockTenantEntity } from '../../../__mocks__/system-adm.mock'
 
 jest.mock('@prisma/client', () => ({
   PrismaClient: jest.fn().mockImplementation(() => ({

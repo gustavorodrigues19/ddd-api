@@ -25,31 +25,26 @@ rectangle Database {
    "name":"string",
    "email": "string",
    "document":"string",
-   "role": "string",
    "password": "string",
    "isActive": "boolean",
    "tenantId": "string",
-   "franchisesId": "JSON.type string[]",
    "accessGroupId": "string"
   }
 
   json AcessGroup{
     "id": "string",
-    "name": "string"
+    "name": "string",
+    "decription": "string",
+    "resources": "string"
   }
+}
 
-  json AcessGroupsResources{
-    "accessGroupId": "string",
-    "resourceId": "string"
-  }
-
-  json SystemResources {
-   "id": "string",
-   "name": "string",
-   "module": "string",
-   "createdAt": "datetime",
-   "updatedAt": "datetime"
-  }
+json SystemResources {
+  "system": ["tenants", "plans"],
+  "business": ["franchises", "administrators", "coaches"],
+  "academy": ["athletes", "teams", "sport_categories", "experimental_trainings", "medical_term"], 
+  "financial": ["clients", "subscriptions", "charges", "plans"],
+  "technical": ["report_models", "performance_reports", "attendance_list"]
 }
 
 admin --> Tenant

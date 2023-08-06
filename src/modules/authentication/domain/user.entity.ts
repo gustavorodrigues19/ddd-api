@@ -2,6 +2,7 @@ import BaseEntity from '../../@shared/domain/entity/base.entity'
 import AggregateRoot from '../../@shared/domain/entity/aggregate-root.interface'
 import bcrypt from 'bcrypt'
 import Id from '../../@shared/domain/value-object/id.value-object'
+import AccessGroup from './access-group.entity'
 
 type UserProps = {
   id?: Id
@@ -9,10 +10,8 @@ type UserProps = {
   email: string
   password: string
   document: string
-  role: string
-  franchisesIds: string[]
-  accessGroupId: string
   tenantId: string
+  accessGroup: AccessGroup
   isActive?: boolean
   createdAt?: Date
   updatedAt?: Date
@@ -22,12 +21,10 @@ export default class User extends BaseEntity implements AggregateRoot {
   private _name: string
   private _email: string
   private _document: string
-  private _role: string
   private _password: string
   private _isActive: boolean
-  private _franchisesIds: string[]
   private _tenantId: string
-  private _accessGroupId: string
+  private _accessGroup: AccessGroup
 
   constructor(props: UserProps) {
     super(props.id, props.createdAt, props.updatedAt)
@@ -35,11 +32,9 @@ export default class User extends BaseEntity implements AggregateRoot {
     this._email = props.email
     this._password = bcrypt.hashSync(props.password, 10)
     this._document = props.document
-    this._role = props.role
-    this._franchisesIds = props.franchisesIds
     this._isActive = props.isActive || true
-    this._accessGroupId = props.accessGroupId
     this._tenantId = props.tenantId
+    this._accessGroup = props.accessGroup
   }
 
   activate() {
@@ -62,20 +57,12 @@ export default class User extends BaseEntity implements AggregateRoot {
     return this._document
   }
 
-  get role() {
-    return this._role
-  }
-
-  get franchisesIds() {
-    return this._franchisesIds
-  }
-
   get tenantId() {
     return this._tenantId
   }
 
-  get accessGroupId() {
-    return this._accessGroupId
+  get accessGroup() {
+    return this._accessGroup
   }
 
   get isActive() {

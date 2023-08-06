@@ -4,8 +4,6 @@ export interface UserInputDto {
   email: string
   password: string
   document: string
-  role: string
-  franchisesIds: string[]
   accessGroupId: string
   isActive: boolean
   tenantId: string
@@ -18,11 +16,18 @@ export interface UserOutputDto {
   name: string
   email: string
   document: string
-  role: string
-  franchisesIds: string[]
-  accessGroupId: string
+  accessGroup: {
+    id: string
+    name: string
+    description: string
+    permissions: string
+  }
+  tenant: {
+    id: string
+    name: string
+    isActive: boolean
+  }
   isActive: boolean
-  tenantId: string
   createdAt: Date
   updatedAt: Date
 }

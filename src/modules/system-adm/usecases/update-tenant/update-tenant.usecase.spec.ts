@@ -1,5 +1,5 @@
+import { mockPlanEntity, mockTenantEntity } from '../../../../__mocks__/system-adm.mock'
 import UpdateTenantUseCase from './update-tenant.usecase'
-import { mockPlanEntity, mockTenantEntity } from '../../../__mocks__/system-adm.mock'
 
 const tenantRepository = {
   add: jest.fn(),

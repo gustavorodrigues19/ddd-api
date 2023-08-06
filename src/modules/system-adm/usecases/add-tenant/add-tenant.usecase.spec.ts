@@ -1,4 +1,4 @@
-import { mockPlan } from '../../../../api/__mocks__/system-adm.mock'
+import { mockPlan } from '../../../../__mocks__/system-adm.mock'
 import AddTenantUseCase from './add-tenant.usecase'
 import { AddTenantInputDto } from './add-tenant.usecase.dto'
 

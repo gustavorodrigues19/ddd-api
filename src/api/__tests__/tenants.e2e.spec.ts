@@ -1,4 +1,4 @@
-import { mockPlan, mockTenant } from '../__mocks__/system-adm.mock'
+import { mockPlan, mockTenant } from '../../__mocks__/system-adm.mock'
 import app from '../index'
 
 const responseObj = {

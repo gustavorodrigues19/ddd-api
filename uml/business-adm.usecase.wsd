@@ -24,6 +24,12 @@ rectangle Usecases {
   usecase "Deactivate Coach" as DC
   usecase "List Coach" as LC
   usecase "List Coaches" as LCS
+
+  usecase "Create Client" as CCC
+  usecase "Update Client" as UCC
+  usecase "Deactivate Client" as DCC
+  usecase "List Client" as LCC
+  usecase "List Clients" as LCCS
 }
 
 rectangle Database {

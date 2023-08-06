@@ -1,0 +1,18 @@
+{
+  "default_roles": [
+    "system_admin",
+    "tenant_admin",
+    "franchise_admin",
+    "coach_admin",
+    "athlete_admin",
+    "client_admin",
+    "financial_admin"
+  ],
+  "resources": {
+    "system": ["tenants", "plans"],
+    "business": ["franchises", "administrators", "coaches"],
+    "academy": ["athletes", "teams", "sport_categories", "experimental_trainings", "medical_term"],
+    "financial": ["clients", "subscriptions", "charges", "plans"],
+    "technical": ["report_models", "performance_reports", "attendance_list"]
+  }
+}
