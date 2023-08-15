@@ -33,10 +33,22 @@ export class AddAccessGroupUseCase implements UseCaseInterface {
       if (!systemPermissions && !businessPermissions) throw new Error('Invalid permissions')
 
       if (systemPermissions?.tenants) {
-        const { entity, actions } = getPermissionsStructure(systemPermissions.tenants)
+        const { entity, actions, values } = getPermissionsStructure(systemPermissions.tenants)
 
         if (entity !== 'tenants') throw new Error('Invalid resource tenants')
         if (actions !== 'view,edit') throw new Error('Invalid action')
+        if (values !== user.tenant.id.id) throw new Error('Invalid value')
+      }
+
+      if (systemPermissions?.plans) {
+        const { entity, actions, values } = getPermissionsStructure(systemPermissions.plans)
+
+        if (entity !== 'plans') throw new Error('Invalid resource plans')
+        if (actions !== 'view') throw new Error('Invalid action')
+        if (values !== '*') throw new Error('Invalid value')
+      }
+
+      if (businessPermissions?.franchises) {
       }
     }
     // if (businessPermissions?.franchises) {

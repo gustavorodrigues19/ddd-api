@@ -30,17 +30,12 @@ entity "Franchise" as franchise {
   *id : text <<generated>>
   --
   *name: text
-  logo_url: text
-  *color: text
+  *address: JSON
+  *brand: JSON
   *email: text
+  *phone: text
   *document: text
   *isActive: boolean
-  *street: text
-  *addressNumber: text
-  complement: text
-  *neighborhood: text
-  *city: text
-  *state: text
   *createdAt: DateTime
   *updatedAt: DateTime
   --
