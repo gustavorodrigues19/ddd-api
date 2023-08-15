@@ -1,10 +1,10 @@
-import { RoleKeys, SystemResourcesProps } from '../../../@shared/interfaces'
+import { SystemResourcesProps } from '../../../@shared/interfaces'
 
 export interface AddAccessGroupUseCaseInputDTO {
+  userId: string
   name: string
   description: string
   permissions: SystemResourcesProps
-  role: RoleKeys
 }
 
 export interface AddAccessGroupUseCaseOutputDTO {

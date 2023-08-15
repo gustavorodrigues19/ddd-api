@@ -1,13 +1,12 @@
 import Id from '../../@shared/domain/value-object/id.value-object'
 import AggregateRoot from '../../@shared/domain/entity/aggregate-root.interface'
 import BaseEntity from '../../@shared/domain/entity/base.entity'
-import Resource from './resource.value-object'
 
 interface AccessGroupProps {
   id?: Id
   name: string
   description: string
-  resources: string
+  permissions: string
   createdAt?: Date
   updatedAt?: Date
 }
@@ -15,13 +14,13 @@ interface AccessGroupProps {
 export default class AccessGroup extends BaseEntity implements AggregateRoot {
   private _name: string
   private _description: string
-  private _resources: Resource
+  private _permissions: string
 
   constructor(props: AccessGroupProps) {
     super(props.id, props.createdAt, props.updatedAt)
     this._name = props.name
     this._description = props.description
-    this._resources = new Resource(props.resources)
+    this._permissions = props.permissions
   }
 
   get name() {
@@ -32,7 +31,7 @@ export default class AccessGroup extends BaseEntity implements AggregateRoot {
     return this._description
   }
 
-  get resources() {
-    return this._resources
+  get permissions() {
+    return this._permissions
   }
 }

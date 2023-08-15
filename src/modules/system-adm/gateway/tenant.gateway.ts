@@ -1,4 +1,4 @@
-import Tenant from '../domain/tenant.entity'
+import Tenant from '../../@shared/domain/entity/tenant.entity'
 
 export interface TenantFindOutputDto {
   data: Tenant[]

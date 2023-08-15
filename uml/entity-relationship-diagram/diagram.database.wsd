@@ -1,0 +1,178 @@
+@startuml
+
+skinparam linetype ortho
+
+entity "Tenant" as tenant {
+  *id : text <<generated>>
+  --
+  *name : text
+  *document : text
+  domain : text
+  *planId : text
+  *isActive: boolean
+  *createdAt: DateTime
+  *updatedAt: DateTime
+}
+
+entity "Plan" as plan {
+  *id : text <<generated>>
+  --
+  *name: text
+  *description: text
+  *price: number
+  *createdAt: DateTime
+  *updatedAt: DateTime
+  --
+  *tenantId : number <<FK>>
+}
+
+entity "Franchise" as franchise {
+  *id : text <<generated>>
+  --
+  *name: text
+  logo_url: text
+  *color: text
+  *email: text
+  *document: text
+  *isActive: boolean
+  *street: text
+  *addressNumber: text
+  complement: text
+  *neighborhood: text
+  *city: text
+  *state: text
+  *createdAt: DateTime
+  *updatedAt: DateTime
+  --
+  *tenantId : number <<FK>>
+}
+
+entity "User" as user {
+  *id : text <<generated>>
+  --
+  *username: text
+  *email: text
+  *password: text
+  *role: text
+  *isActive: boolean
+  *createdAt: DateTime
+  *updatedAt: DateTime
+  --
+  *tenantId : text <<FK>>
+  *accessGroupId : text <<FK>>
+}
+
+entity "AcessGroup" as accessGroup {
+  *id : text <<generated>>
+  --
+  *name: text
+  description: text
+  *resources: text
+  *createdAt: DateTime
+  *updatedAt: DateTime
+  --
+  *tenantId : text <<FK>>
+}
+
+entity "users_franchises" as usersFranchises {
+  *userId : text <<FK>>
+  *franchiseId : text <<FK>>
+}
+
+entity "Coach" as coach {
+  *id : text <<generated>>
+  --
+  *name: text
+  *email: text
+  *document: text
+  *phone: text
+  *position: text
+  *createdAt: DateTime
+  *updatedAt: DateTime
+  --
+  *tenantId : number <<FK>>
+  *userId : text <<FK>>
+}
+
+entity "Athlete" as athlete {
+  *id : text <<generated>>
+  --
+  *name: text
+  *email: text
+  *document: text
+  *phone: text
+  *birthdate: DateTime
+  *createdAt: DateTime
+  *updatedAt: DateTime
+  --
+  *tenantId : number <<FK>>
+  *userId : text <<FK>>
+  *sportCategoryId : text <<FK>>
+}
+
+entity "SportsCategory" as sportCategory {
+  *id : text <<generated>>
+  --
+  *name: text
+  *description: text
+  *createdAt: DateTime
+  *updatedAt: DateTime
+  --
+  *tenantId : number <<FK>>
+}
+
+entity "categories_franchises" as categorieFranchises {
+  *sportCategoryId : text <<FK>>
+  *franchiseId : text <<FK>>
+}
+
+entity "Team" as team {
+  *id : text <<generated>>
+  --
+  *name: text
+  *trainingDays: text[]
+  *startTime: DateTime
+  *endTime: DateTime
+  *createdAt: DateTime
+  *updatedAt: DateTime
+  --
+  *tenantId : number <<FK>>
+  *franchiseId : number <<FK>>
+  *sportCategoryId : text <<FK>>
+}
+
+entity "team_athletes" as teamAthletes {
+  *teamId : text <<FK>>
+  *athleteId : text <<FK>>
+}
+
+
+'' One to many relationships
+tenant ||..o{ plan
+tenant ||..o{ franchise
+tenant ||..o{ coach
+tenant ||..o{ user
+tenant ||..o{ sportCategory
+tenant ||..o{ athlete
+tenant ||..o{ accessGroup
+
+user ||..o{ athlete
+user ||..o{ coach
+
+sportCategory ||..o{ athlete
+
+accessGroup ||..o{ user
+
+
+'' Many to many relationships
+user ||..o{ usersFranchises
+franchise ||..o{ usersFranchises
+
+franchise ||..o{ categorieFranchises
+sportCategory ||..o{ categorieFranchises
+
+athlete ||..o{ teamAthletes
+team ||..o{ teamAthletes
+
+
+@enduml

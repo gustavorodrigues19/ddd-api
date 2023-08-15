@@ -35,14 +35,14 @@ rectangle Usecases {
 rectangle Database {
   json Franchises {
    "id": "string",
-   "color": "string",
-   "logoUrl": "string",
    "name": "string",
+   "color": "string",
+   "logo_url": "string",
    "email": "string",
    "document":"string",
-   "active": "boolean",
+   "isActive": "boolean",
    "street": "string",
-   "number": "string",
+   "addressNumber": "string",
    "complement": "string",
    "neighborhood": "string",
    "city": "string",

@@ -1,4 +1,4 @@
-import Tenant from '../domain/tenant.entity'
+import Tenant from '../../@shared/domain/entity/tenant.entity'
 import TenantGateway, { TenantFindOutputDto } from '../gateway/tenant.gateway'
 import { PrismaClient, Prisma } from '@prisma/client'
 import TenantMapper from './tenant.mapper'

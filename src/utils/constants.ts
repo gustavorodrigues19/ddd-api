@@ -18,4 +18,4 @@ export const SYSTEM_RESOURCES_LIST = [
   'attendance_list',
 ]
 
-export const RESOURCES_ACTIONS_LIST = ['view', 'create', 'edit', 'delete', '*']
+export const RESOURCES_ACTIONS_LIST = ['view', 'create', 'edit', 'delete', '*', '#']

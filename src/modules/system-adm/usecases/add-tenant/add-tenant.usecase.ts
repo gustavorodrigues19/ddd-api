@@ -1,8 +1,8 @@
 import PlanGateway from '../../gateway/plan.gateway'
-import Tenant from '../../domain/tenant.entity'
+import Tenant from '../../../@shared/domain/entity/tenant.entity'
+import Plan from '../../../@shared/domain/entity/plan.entity'
 import TenantGateway from '../../gateway/tenant.gateway'
 import { AddTenantInputDto, AddTenantOutputDto } from './add-tenant.usecase.dto'
-import Plan from '../../domain/plan.entity'
 
 export default class AddTenantUseCase {
   private _tenantRepository: TenantGateway

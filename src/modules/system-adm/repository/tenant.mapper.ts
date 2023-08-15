@@ -1,6 +1,6 @@
 import Id from '../../@shared/domain/value-object/id.value-object'
-import Plan from '../domain/plan.entity'
-import Tenant from '../domain/tenant.entity'
+import Tenant from '../../@shared/domain/entity/tenant.entity'
+import Plan from '../../@shared/domain/entity/plan.entity'
 
 export default class TenantMapper {
   static toDomain(input: any): Tenant {

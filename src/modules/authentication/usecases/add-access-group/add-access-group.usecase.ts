@@ -5,59 +5,69 @@ import {
   AddAccessGroupUseCaseOutputDTO,
 } from './add-access-group.interface'
 import AccessGroup from '../../../authentication/domain/access-group.entity'
-import Resource from '../../../authentication/domain/resource.value-object'
-import { SystemResourcesProps } from '../../../@shared/interfaces'
-import { isUUID } from '../../../../utils'
-import { RESOURCES_ACTIONS_LIST, SYSTEM_RESOURCES_LIST } from '../../../../utils/constants'
+import { ROLES } from '../../../@shared/interfaces'
+import {
+  getPermissionsStructure,
+  validatePermissionsStructure,
+} from '../../../../utils/permissions'
+import UserGateway from '../../gateway/user.gateway'
+import User from '../../domain/user.entity'
 
 export class AddAccessGroupUseCase implements UseCaseInterface {
   private readonly _accessGroupRepository: AccessGroupGateway
-  constructor(accessGroupRepository: AccessGroupGateway) {
+  private readonly _userRepository: UserGateway
+  constructor(accessGroupRepository: AccessGroupGateway, userRepository: UserGateway) {
     this._accessGroupRepository = accessGroupRepository
+    this._userRepository = userRepository
   }
 
-  private validateStructure(permissions: SystemResourcesProps): void {
-    const resourcesObject = Object.values(permissions).reduce(
-      (acc, curr) => ({ ...acc, ...curr }),
-      {}
-    )
+  private async validatePermissions(
+    input: AddAccessGroupUseCaseInputDTO,
+    user: User
+  ): Promise<void> {
+    if (user.role === ROLES.ORGANIZATION_ADMIN) {
+      // Franchise Owner
+      const systemPermissions = input.permissions.system
+      const businessPermissions = input.permissions.business
 
-    for (let key in resourcesObject) {
-      const resourceName = resourcesObject[key]
-      const resourceSplit = resourceName.split(':')
+      if (!systemPermissions && !businessPermissions) throw new Error('Invalid permissions')
 
-      const entity = resourceSplit?.[0]
-      const actions = resourceSplit?.[1]
-      const values = resourceSplit?.[2]
+      if (systemPermissions?.tenants) {
+        const { entity, actions } = getPermissionsStructure(systemPermissions.tenants)
 
-      if (!entity || !actions || !values) throw new Error('Invalid resources')
-      else {
-        if (!SYSTEM_RESOURCES_LIST.includes(entity)) throw new Error(`Invalid resource ${entity}`)
-
-        const isActionsValid = actions
-          .split(',')
-          .some((action: string) => RESOURCES_ACTIONS_LIST.includes(action))
-
-        if (!isActionsValid) throw new Error('Invalid action')
-
-        const isValuesValid = values
-          .split(',')
-          .some((value: string) => isUUID(value) || value === '*')
-
-        if (!isValuesValid) throw new Error('Invalid value')
+        if (entity !== 'tenants') throw new Error('Invalid resource tenants')
+        if (actions !== 'view,edit') throw new Error('Invalid action')
       }
     }
+    // if (businessPermissions?.franchises) {
+
+    // system?: {
+    //   tenants: string
+    //   plans?: string
+    // }
+    // business?: {
+    //   franchises?: string
+    //   administrators?: string
+    //   coaches?: string
+    // }
+    // academy?: {
+    //   athletes?: string
+    //   teams?: string
+    //   sport_categories?: string
+    // }
   }
 
   async execute(input: AddAccessGroupUseCaseInputDTO): Promise<AddAccessGroupUseCaseOutputDTO> {
-    const resources = new Resource(input.permissions)
+    const user = await this._userRepository.findById(input.userId)
+    if (!user) throw new Error('User not found')
 
-    this.validateStructure(input.permissions)
+    validatePermissionsStructure(input.permissions)
+    await this.validatePermissions(input, user)
 
     const accessGroup = new AccessGroup({
       name: input.name,
       description: input.description,
-      resources: resources.resourcesEncoded,
+      permissions: input.permissions.toString(),
     })
     await this._accessGroupRepository.add(accessGroup)
 

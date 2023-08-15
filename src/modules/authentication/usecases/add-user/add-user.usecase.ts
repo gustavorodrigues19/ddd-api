@@ -1,40 +1,41 @@
-import AccessGroupGateway from 'modules/authentication/gateway/access-group.gateway'
+import AccessGroupGateway from '../../gateway/access-group.gateway'
 import Id from '../../../@shared/domain/value-object/id.value-object'
 import User from '../../domain/user.entity'
 import UserGateway from '../../gateway/user.gateway'
 import { UserInputDto, UserOutputDto } from './add-user.usecase.dto'
-import SystemAdminFacade from '../../../system-adm/facade/system-adm.facade'
+import TenantGatewayShared from '../../../@shared/gateway/tenant-shared.gateway'
 
 export default class AddUserUseCase {
   private _userRepository: UserGateway
   private _accessGroupRepository: AccessGroupGateway
-  private _systemAdminFacade: SystemAdminFacade
+  private _tenantRepository: TenantGatewayShared
 
   constructor(
     userRepository: UserGateway,
     accessGroupRepository: AccessGroupGateway,
-    systemAdminFacade: SystemAdminFacade
+    tenantRepository: TenantGatewayShared
   ) {
     this._userRepository = userRepository
     this._accessGroupRepository = accessGroupRepository
-    this._systemAdminFacade = systemAdminFacade
+    this._tenantRepository = tenantRepository
   }
 
   async execute(input: UserInputDto): Promise<UserOutputDto> {
-    const tenant = await this._systemAdminFacade.findTenant(input.tenantId)
+    const tenant = await this._tenantRepository.findById(input.tenantId)
+    if (!tenant) throw new Error('Tenant not found')
 
     const accessGroup = await this._accessGroupRepository.findById(input.accessGroupId)
     if (!accessGroup) throw new Error('Access group not found')
 
     const props = {
       id: new Id(input.id) || new Id(),
-      name: input.name,
+      username: input.username,
       email: input.email,
       password: input.password,
-      document: input.document,
+      role: input.role,
       accessGroup,
+      tenant,
       isActive: input.isActive,
-      tenantId: input.tenantId,
       createdAt: input.createdAt || new Date(),
       updatedAt: input.updatedAt || new Date(),
     }
@@ -44,12 +45,12 @@ export default class AddUserUseCase {
 
     return {
       id: user.id.id,
-      name: user.name,
+      username: user.username,
       email: user.email,
-      document: user.document,
+      role: user.role,
       isActive: user.isActive,
       tenant: {
-        id: tenant.id,
+        id: tenant.id.id,
         name: tenant.name,
         isActive: tenant.isActive,
       },
@@ -57,7 +58,7 @@ export default class AddUserUseCase {
         id: user.accessGroup.id.id,
         name: user.accessGroup.name,
         description: user.accessGroup.description,
-        permissions: user.accessGroup.resources.actions,
+        permissions: user.accessGroup.permissions,
       },
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,

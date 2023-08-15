@@ -19,11 +19,11 @@ rectangle AcademyAdmUsecases {
   usecase "Find Teams" as FTS
   usecase "Deactivate Team" as DT
   
-  usecase "Create Category" as CC
-  usecase "Update Category" as UC
-  usecase "Delete Category" as DC
-  usecase "Find Category" as FC
-  usecase "Find Categories" as FCS
+  usecase "Create Sport Category" as CC
+  usecase "Update Sport Category" as UC
+  usecase "Delete Sport Category" as DC
+  usecase "Find Sport Category" as FC
+  usecase "Find SportsCategories" as FCS
 
   usecase "Create Experimental Training" as CET
   usecase "Update Experimental Training" as UET
@@ -69,7 +69,7 @@ rectangle Database {
     "athleteId": "string"
   }
 
-  json Categories{
+  json SportsCategories{
     "id": "string",
     "name": "string",
     "shortDescription": "string",

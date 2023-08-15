@@ -10,16 +10,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// SYSTEM ADMINISTRATION MODULE
 model Tenants {
-  id        String   @id @default(uuid())
-  name      String   @unique @db.VarChar(45)
-  document  String   @unique @db.VarChar(20)
-  domain    String   @db.VarChar(45)
-  plan      Plans    @relation(fields: [planId], references: [id])
-  planId    String
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  id              String            @id @default(uuid())
+  name            String            @unique @db.VarChar(45)
+  document        String            @unique @db.VarChar(20)
+  domain          String            @db.VarChar(45)
+  plan            Plans             @relation(fields: [planId], references: [id])
+  planId          String
+  isActive        Boolean           @default(true)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @default(now())
+  Users           Users[]
+  AccessGroups    AccessGroups[]
+  Franchises      Franchises[]
+  Coaches         Coaches[]
+  SportCategories SportCategories[]
+  Athletes        Athletes[]
+  Teams           Teams[]
 }
 
 model Plans {
@@ -30,4 +38,144 @@ model Plans {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @default(now())
   Tenants     Tenants[]
+}
+
+// AUTHENTICATION MODULE
+model Users {
+  id            String       @id @default(uuid())
+  username      String       @unique @db.VarChar(45)
+  email         String       @unique @db.VarChar(45)
+  password      String       @db.VarChar(45)
+  role          Role
+  isActive      Boolean      @default(true)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @default(now())
+  tenantId      String
+  tenant        Tenants      @relation(fields: [tenantId], references: [id])
+  accessGroupId String
+  accessGroup   AccessGroups @relation(fields: [accessGroupId], references: [id])
+  Coaches       Coaches[]
+  Athletes      Athletes[]
+}
+
+enum Role {
+  MASTER_ADMIN
+  ORGANIZATION_ADMIN
+  FRANCHISE_ADMIN
+  COACH_ADMIN
+  CLIENT_ADMIN
+  FINANCE_ADMIN
+  ATHLETE_ADMIN
+  CUSTOM_ADMIN
+}
+
+model AccessGroups {
+  id          String   @id @default(uuid())
+  name        String   @db.VarChar(45)
+  description String?  @db.VarChar(50)
+  resources   String   @db.VarChar(255)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  tenantId    String
+  tenant      Tenants  @relation(fields: [tenantId], references: [id])
+  Users       Users[]
+}
+
+// BUSINESS MODULE
+model Franchises {
+  id                                    String                                  @id @default(uuid())
+  name                                  String                                  @unique @db.VarChar(45)
+  logo_url                              String?                                 @unique @db.VarChar(20)
+  color                                 String                                  @db.VarChar(45)
+  email                                 String                                  @db.VarChar(45)
+  document                              String                                  @db.VarChar(20)
+  address                               Json                                    @db.Json
+  isActive                              Boolean                                 @default(true)
+  createdAt                             DateTime                                @default(now())
+  updatedAt                             DateTime                                @default(now())
+  tenantId                              String
+  tenant                                Tenants                                 @relation(fields: [tenantId], references: [id])
+  Teams                                 Teams[]
+  sport_categories_franchises_franchise sport_categories_franchises_franchise[]
+}
+
+model Coaches {
+  id        String   @id @default(uuid())
+  name      String   @unique @db.VarChar(45)
+  email     String   @db.VarChar(45)
+  document  String   @db.VarChar(20)
+  phone     String   @db.VarChar(20)
+  position  String   @db.VarChar(20)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  tenantId  String
+  tenant    Tenants  @relation(fields: [tenantId], references: [id])
+  userId    String
+  user      Users    @relation(fields: [userId], references: [id])
+}
+
+// ACADEMY ADMIN MODULE
+model SportCategories {
+  id                                    String                                  @id @default(uuid())
+  name                                  String                                  @unique @db.VarChar(45)
+  description                           String                                  @db.VarChar(50)
+  createdAt                             DateTime                                @default(now())
+  updatedAt                             DateTime                                @default(now())
+  tenantId                              String
+  tenant                                Tenants                                 @relation(fields: [tenantId], references: [id])
+  Athletes                              Athletes[]
+  sport_categories_franchises_franchise sport_categories_franchises_franchise[]
+}
+
+model sport_categories_franchises_franchise {
+  sportCategorId  String
+  franchiseId     String
+  franchises      Franchises      @relation(fields: [franchiseId], references: [id])
+  sportCategories SportCategories @relation(fields: [sportCategorId], references: [id])
+
+  @@id([sportCategorId, franchiseId])
+  @@index([sportCategorId], name: "IDX_93b566d522b73cb8bc46f7499c")
+  @@index([franchiseId], name: "IDX_a5e63f80ca58e7296d5864b88a")
+}
+
+model Athletes {
+  id                    String                  @id @default(uuid())
+  name                  String                  @unique @db.VarChar(45)
+  email                 String                  @db.VarChar(45)
+  document              String                  @db.VarChar(20)
+  phone                 String                  @db.VarChar(20)
+  birthdate             DateTime
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @default(now())
+  tenantId              String
+  tenant                Tenants                 @relation(fields: [tenantId], references: [id])
+  userId                String
+  user                  Users                   @relation(fields: [userId], references: [id])
+  sportCategoryId       String
+  sportCategory         SportCategories         @relation(fields: [sportCategoryId], references: [id])
+  team_athletes_athlete team_athletes_athlete[]
+}
+
+model Teams {
+  id                    String                  @id @default(uuid())
+  name                  String                  @unique @db.VarChar(45)
+  description           String                  @db.VarChar(50)
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @default(now())
+  tenantId              String
+  tenant                Tenants                 @relation(fields: [tenantId], references: [id])
+  franchiseId           String
+  franchise             Franchises              @relation(fields: [franchiseId], references: [id])
+  team_athletes_athlete team_athletes_athlete[]
+}
+
+model team_athletes_athlete {
+  teamId    String
+  athleteId String
+  athletes  Athletes @relation(fields: [athleteId], references: [id])
+  teams     Teams    @relation(fields: [teamId], references: [id])
+
+  @@id([teamId, athleteId])
+  @@index([teamId], name: "IDX_93b566d522b73cb8bc46f7405b")
+  @@index([athleteId], name: "IDX_a5e63f80ca58e7296d5864bd2d")
 }

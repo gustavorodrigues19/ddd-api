@@ -1,9 +1,11 @@
+import { RoleKeys } from '../../../@shared/interfaces'
+
 export interface UserInputDto {
   id?: string
-  name: string
+  username: string
   email: string
   password: string
-  document: string
+  role: RoleKeys
   accessGroupId: string
   isActive: boolean
   tenantId: string
@@ -13,9 +15,9 @@ export interface UserInputDto {
 
 export interface UserOutputDto {
   id?: string
-  name: string
+  username: string
   email: string
-  document: string
+  role: RoleKeys
   accessGroup: {
     id: string
     name: string

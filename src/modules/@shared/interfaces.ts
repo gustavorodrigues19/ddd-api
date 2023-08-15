@@ -12,7 +12,7 @@ export const ROLES = {
 export type RoleKeys = (typeof ROLES)[keyof typeof ROLES]
 
 export interface SystemResourcesProps {
-  system?: {
+  system: {
     tenants: string
     plans?: string
   }

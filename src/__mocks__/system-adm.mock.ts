@@ -1,6 +1,6 @@
 import Id from '../modules/@shared/domain/value-object/id.value-object'
-import Plan from '../modules/system-adm/domain/plan.entity'
-import Tenant from '../modules/system-adm/domain/tenant.entity'
+import Tenant from '../modules/@shared/domain/entity/tenant.entity'
+import Plan from '../modules/@shared/domain/entity/plan.entity'
 
 export const mockPlan = {
   id: '1',
