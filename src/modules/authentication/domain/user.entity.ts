@@ -12,9 +12,9 @@ type UserProps = {
   username: string
   role: RoleKeys
   password: string
-  tenant: Tenant
-  accessGroup: AccessGroup
   isActive?: boolean
+  tenant: Tenant
+  accessGroup?: AccessGroup
   createdAt?: Date
   updatedAt?: Date
 }
@@ -26,7 +26,7 @@ export default class User extends BaseEntity implements AggregateRoot {
   private _role: RoleKeys
   private _isActive: boolean
   private _tenant: Tenant
-  private _accessGroup: AccessGroup
+  private _accessGroup?: AccessGroup
 
   constructor(props: UserProps) {
     super(props.id, props.createdAt, props.updatedAt)

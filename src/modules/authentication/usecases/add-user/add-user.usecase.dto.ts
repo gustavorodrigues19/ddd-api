@@ -18,11 +18,9 @@ export interface UserOutputDto {
   username: string
   email: string
   role: RoleKeys
-  accessGroup: {
-    id: string
-    name: string
-    description: string
-    permissions: string
+  accessGroup?: {
+    id?: string
+    name?: string
   }
   tenant: {
     id: string

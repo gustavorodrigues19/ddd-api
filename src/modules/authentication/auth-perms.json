@@ -1,0 +1,122 @@
+{
+  "default_roles": [
+    "MASTER_ADMIN",
+    "ORGANIZATION_ADMIN",
+    "FRANCHISE_ADMIN",
+    "COACH_ADMIN",
+    "ATHLETE_ADMIN",
+    "CLIENT_ADMIN",
+    "FINANCE_ADMIN"
+  ],
+  "all_roles": [
+    "MASTER_ADMIN",
+    "ORGANIZATION_ADMIN",
+    "FRANCHISE_ADMIN",
+    "COACH_ADMIN",
+    "ATHLETE_ADMIN",
+    "CLIENT_ADMIN",
+    "FINANCE_ADMIN",
+    "CUSTOM_ADMIN"
+  ],
+  "actions_list": ["view", "create", "edit", "delete", "*", "#", "$"],
+  "resources_list": [
+    "tenants",
+    "plans",
+    "franchises",
+    "administrators",
+    "coaches",
+    "athletes",
+    "teams",
+    "sport_categories",
+    "experimental_trainings",
+    "medical_term",
+    "clients",
+    "subscriptions",
+    "charges",
+    "plans",
+    "report_models",
+    "performance_reports",
+    "attendance_list"
+  ],
+  "resources_tree": {
+    "system": ["tenants", "plans"],
+    "business": ["franchises", "administrators", "coaches"],
+    "academy": ["athletes", "teams", "sport_categories", "experimental_trainings", "medical_term"],
+    "financial": ["clients", "subscriptions", "charges", "plans"],
+    "technical": ["report_models", "performance_reports", "attendance_list"]
+  },
+  "perms": {
+    "MASTER_ADMIN": {
+      "system": ["tenants:*:*", "plans:*:*"],
+      "business": ["franchises:*:*", "administrators:*:*", "coaches:*:*"],
+      "academy": [
+        "athletes:*:*",
+        "teams:*:*",
+        "sport_categories:*:*",
+        "experimental_trainings:*:*",
+        "medical_term:*:*"
+      ],
+      "financial": ["clients:*:*", "subscriptions:*:*", "charges:*:*", "plans:*:*"],
+      "technical": ["report_models:*:*", "performance_reports:*:*", "attendance_list:*:*"]
+    },
+    "ORGANIZATION_ADMIN": {
+      "system": ["tenants:view,edit:#", "plans:view:*"],
+      "business": ["franchises:*:#", "administrators:*:#", "coaches:*:#"],
+      "academy": [
+        "athletes:*:#",
+        "teams:*:#",
+        "sport_categories:*:#",
+        "experimental_trainings:*:#",
+        "medical_term:*:#"
+      ],
+      "financial": ["clients:*:#", "subscriptions:*:#", "charges:*:#", "plans:*:#"],
+      "technical": ["report_models:*:#", "performance_reports:*:#", "attendance_list:*:#"]
+    },
+    "FRANCHISE_ADMIN": {
+      "system": ["tenants:view:#"],
+      "business": ["franchises:view,edit:#"],
+      "academy": [
+        "athletes:*:#",
+        "teams:*:#",
+        "sport_categories:*:#",
+        "experimental_trainings:*:#",
+        "medical_term:view:#"
+      ],
+      "financial": ["clients:*:#", "subscriptions:*:#", "charges:*:*", "plans:*:#"],
+      "technical": ["report_models:*:#", "performance_reports:*:#", "attendance_list:*:#"]
+    },
+    "COACH_ADMIN": {
+      "system": [],
+      "business": ["franchises:view:#", "coaches:view,edit:$"],
+      "academy": ["athletes:*:#", "teams:*:#", "sport_categories:*:#"],
+      "financial": [],
+      "technical": ["report_models:*:#", "performance_reports:*:#", "attendance_list:*:#"]
+    },
+    "ATHLETE_ADMIN": {
+      "system": [],
+      "business": ["franchises:view:$"],
+      "academy": [
+        "athletes:view,edit:$",
+        "teams:view:$",
+        "sport_categories:view:$",
+        "medical_term:view:$"
+      ],
+      "financial": [],
+      "technical": ["performance_reports:view:$", "attendance_list:view:$"]
+    },
+    "CLIENT_ADMIN": {
+      "system": [],
+      "business": ["franchises:view:$"],
+      "academy": ["athletes:view:$", "teams:view:$", "sport_categories:view:$"],
+      "financial": ["clients:view,edit:$", "subscriptions:view:$", "charges:view:$"],
+      "technical": ["performance_reports:view:$", "attendance_list:view:$"]
+    },
+    "FINANCE_ADMIN": {
+      "system": [],
+      "business": ["franchises:view:$"],
+      "academy": ["athletes:view:$", "teams:view:$", "sport_categories:view:$"],
+      "financial": ["clients:view,edit:$", "subscriptions:*:$", "charges:*:$"],
+      "technical": []
+    }
+  }
+}

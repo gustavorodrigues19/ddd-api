@@ -42,18 +42,18 @@ model Plans {
 
 // AUTHENTICATION MODULE
 model Users {
-  id            String       @id @default(uuid())
-  username      String       @unique @db.VarChar(45)
-  email         String       @unique @db.VarChar(45)
-  password      String       @db.VarChar(45)
+  id            String        @id @default(uuid())
+  username      String        @unique @db.VarChar(45)
+  email         String        @unique @db.VarChar(45)
+  password      String        @db.VarChar(45)
   role          Role
-  isActive      Boolean      @default(true)
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @default(now())
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @default(now())
   tenantId      String
-  tenant        Tenants      @relation(fields: [tenantId], references: [id])
+  tenant        Tenants       @relation(fields: [tenantId], references: [id])
   accessGroupId String
-  accessGroup   AccessGroups @relation(fields: [accessGroupId], references: [id])
+  accessGroup   AccessGroups? @relation(fields: [accessGroupId], references: [id])
   Coaches       Coaches[]
   Athletes      Athletes[]
 }

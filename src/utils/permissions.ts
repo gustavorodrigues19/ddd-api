@@ -1,6 +1,6 @@
 import { SystemResourcesProps } from '../modules/@shared/interfaces'
 import { isUUID } from './index'
-import { RESOURCES_ACTIONS_LIST, SYSTEM_RESOURCES_LIST } from './constants'
+import authPermissions from '../modules/authentication/auth-perms.json'
 
 export const getPermissionsStructure = (resourceName: string) => {
   const resourceSplit = resourceName.split(':')
@@ -25,11 +25,12 @@ export const validatePermissionsStructure = (permissions: SystemResourcesProps) 
 
     if (!entity || !actions || !values) throw new Error('Invalid resources')
     else {
-      if (!SYSTEM_RESOURCES_LIST.includes(entity)) throw new Error(`Invalid resource ${entity}`)
+      if (!authPermissions.resources_list.includes(entity))
+        throw new Error(`Invalid resource ${entity}`)
 
       const isActionsValid = actions
         .split(',')
-        .some((action: string) => RESOURCES_ACTIONS_LIST.includes(action))
+        .some((action: string) => authPermissions.actions_list.includes(action))
 
       if (!isActionsValid) throw new Error('Invalid action')
 

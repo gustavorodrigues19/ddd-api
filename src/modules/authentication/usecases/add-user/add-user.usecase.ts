@@ -4,6 +4,7 @@ import User from '../../domain/user.entity'
 import UserGateway from '../../gateway/user.gateway'
 import { UserInputDto, UserOutputDto } from './add-user.usecase.dto'
 import TenantGatewayShared from '../../../@shared/gateway/tenant-shared.gateway'
+import authPermissions from '../../auth-perms.json'
 
 export default class AddUserUseCase {
   private _userRepository: UserGateway
@@ -24,8 +25,14 @@ export default class AddUserUseCase {
     const tenant = await this._tenantRepository.findById(input.tenantId)
     if (!tenant) throw new Error('Tenant not found')
 
-    const accessGroup = await this._accessGroupRepository.findById(input.accessGroupId)
-    if (!accessGroup) throw new Error('Access group not found')
+    if (!authPermissions.all_roles.includes(input.role)) throw new Error('Invalid role')
+
+    let accessGroup
+    if (!authPermissions.default_roles.includes(input.role)) {
+      // If user is a CUSTOM_ADMIN, add an access group is required
+      accessGroup = await this._accessGroupRepository.findById(input.accessGroupId)
+      if (!accessGroup) throw new Error('Access group not found')
+    }
 
     const props = {
       id: new Id(input.id) || new Id(),
@@ -36,8 +43,6 @@ export default class AddUserUseCase {
       accessGroup,
       tenant,
       isActive: input.isActive,
-      createdAt: input.createdAt || new Date(),
-      updatedAt: input.updatedAt || new Date(),
     }
 
     const user = new User(props)
@@ -54,12 +59,12 @@ export default class AddUserUseCase {
         name: tenant.name,
         isActive: tenant.isActive,
       },
-      accessGroup: {
-        id: user.accessGroup.id.id,
-        name: user.accessGroup.name,
-        description: user.accessGroup.description,
-        permissions: user.accessGroup.permissions,
-      },
+      ...(accessGroup && {
+        accessGroup: {
+          id: user?.accessGroup?.id.id,
+          name: user?.accessGroup?.name,
+        },
+      }),
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     }
