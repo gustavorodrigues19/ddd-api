@@ -1,4 +1,5 @@
 import AccessGroupGateway from '../../gateway/access-group.gateway'
+import bcrypt from 'bcrypt'
 import Id from '../../../@shared/domain/value-object/id.value-object'
 import User from '../../domain/user.entity'
 import UserGateway from '../../gateway/user.gateway'
@@ -38,7 +39,7 @@ export default class AddUserUseCase {
       id: new Id(input.id) || new Id(),
       username: input.username,
       email: input.email,
-      password: input.password,
+      password: bcrypt.hashSync(input.password, 10),
       role: input.role,
       accessGroup,
       tenant,

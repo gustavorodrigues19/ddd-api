@@ -64,7 +64,7 @@ export const mockAccessGroupEntity = new AccessGroup({
 
 export const mockUserEntity = new User({
   id: new Id('1'),
-  username: '9999999940',
+  username: '99999999999',
   email: 'user@example.com',
   password: '123456',
   role: ROLES.MASTER_ADMIN,

@@ -27,8 +27,8 @@ export const mockPlanEntity = new Plan({
   name: 'basic',
   description: 'Basic plan',
   price: 100,
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  createdAt: new Date('2023-07-22T21:31:31.000Z'),
+  updatedAt: new Date('2023-07-22T21:31:31.000Z'),
 })
 
 export const mockTenantEntity = new Tenant({
@@ -38,4 +38,6 @@ export const mockTenantEntity = new Tenant({
   domain: 'www.test.com',
   plan: mockPlanEntity,
   isActive: true,
+  createdAt: new Date('2023-07-22T21:31:31.000Z'),
+  updatedAt: new Date('2023-07-22T21:31:31.000Z'),
 })
