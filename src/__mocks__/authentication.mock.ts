@@ -60,6 +60,7 @@ export const mockAccessGroupEntity = new AccessGroup({
   permissions: 'tenants:view,edit',
   createdAt: new Date('2023-07-22T21:31:31.000Z'),
   updatedAt: new Date('2023-07-22T21:31:31.000Z'),
+  tenant: mockTenantEntity,
 })
 
 export const mockUserEntity = new User({

@@ -1,4 +1,4 @@
-import UseCaseInterface from 'modules/@shared/usecase/use-case.interface'
+import UseCaseInterface from '../../../@shared/usecase/use-case.interface'
 import TenantGateway from '../../gateway/tenant.gateway'
 import { FindTenantsOutputDto } from './find-tenants.usecase.dto'
 
@@ -10,10 +10,10 @@ export default class FindTenantsUseCase implements UseCaseInterface {
   }
 
   async execute(skip: number): Promise<FindTenantsOutputDto> {
-    const foundTenants = await this._tenantRepository.find(skip, 100)
+    const tenants = await this._tenantRepository.find(skip, 100)
 
-    const total = foundTenants.total
-    const tenants = foundTenants.data.map((tenant) => ({
+    const total = tenants.total
+    const data = tenants.data.map((tenant) => ({
       id: tenant.id.id,
       name: tenant.name,
       document: tenant.document,
@@ -32,7 +32,7 @@ export default class FindTenantsUseCase implements UseCaseInterface {
     }))
 
     return {
-      data: tenants,
+      data,
       total,
       skip,
       take: 100,

@@ -14,12 +14,12 @@ export default class AddUserUseCase {
 
   constructor(
     userRepository: UserGateway,
-    accessGroupRepository: AccessGroupGateway,
-    tenantRepository: TenantGatewayShared
+    tenantRepository: TenantGatewayShared,
+    accessGroupRepository: AccessGroupGateway
   ) {
     this._userRepository = userRepository
-    this._accessGroupRepository = accessGroupRepository
     this._tenantRepository = tenantRepository
+    this._accessGroupRepository = accessGroupRepository
   }
 
   async execute(input: UserInputDto): Promise<UserOutputDto> {
