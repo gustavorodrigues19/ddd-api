@@ -10,4 +10,5 @@ export default interface UserGateway {
   findById(id: string): Promise<User | null>
   findByEmailOrUsername(email?: string, username?: string): Promise<User[]>
   find(skip: number, take: number): Promise<UserFindOutputDto>
+  delete(id: string): Promise<void>
 }

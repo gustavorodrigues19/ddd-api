@@ -12,17 +12,20 @@ export default class AuthenticationFacade implements AuthenticationFacadeInterfa
   private _findUserUseCase: UseCaseInterface
   private _createUserUseCase: UseCaseInterface
   private _updateUserUseCase: UseCaseInterface
+  private _deleteUserUseCase: UseCaseInterface
 
   constructor(
     findUsersUseCase: UseCaseInterface,
     findUserUseCase: UseCaseInterface,
     createUserUseCase: UseCaseInterface,
-    updateUserUseCase: UseCaseInterface
+    updateUserUseCase: UseCaseInterface,
+    deleteUserUseCase: UseCaseInterface
   ) {
     this._findUsersUseCase = findUsersUseCase
     this._findUserUseCase = findUserUseCase
     this._createUserUseCase = createUserUseCase
     this._updateUserUseCase = updateUserUseCase
+    this._deleteUserUseCase = deleteUserUseCase
   }
 
   async findUsers(skip: number): Promise<UsersOutputDto> {
@@ -39,5 +42,9 @@ export default class AuthenticationFacade implements AuthenticationFacadeInterfa
 
   async updateUser(input: UpdateUserInputDto): Promise<UserOutputDto> {
     return this._updateUserUseCase.execute(input)
+  }
+
+  async deleteUser(id: string): Promise<UserOutputDto> {
+    return this._deleteUserUseCase.execute(id)
   }
 }

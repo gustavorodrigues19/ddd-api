@@ -100,4 +100,12 @@ export default class UsersRepository implements UserGateway {
       throw new Error('Error on find users.')
     }
   }
+
+  async delete(id: string): Promise<void> {
+    try {
+      await this._prismaOrm.users.delete({ where: { id } })
+    } catch (error) {
+      throw new Error('Error on delete user.')
+    }
+  }
 }

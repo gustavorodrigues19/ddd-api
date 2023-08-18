@@ -55,4 +55,5 @@ export interface AuthenticationFacadeInterface {
   createUser(input: CreateUserInputDto): Promise<UserOutputDto>
   updateUser(input: UpdateUserInputDto): Promise<UserOutputDto>
   findUser(id: string): Promise<UserOutputDto>
+  deleteUser(id: string): Promise<UserOutputDto>
 }

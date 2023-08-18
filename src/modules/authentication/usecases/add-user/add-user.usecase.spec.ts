@@ -11,6 +11,7 @@ const MockUserRepository = {
   findById: jest.fn(),
   findByEmailOrUsername: jest.fn(),
   find: jest.fn(),
+  delete: jest.fn(),
 }
 const MockAccessGroupRepository = {
   add: jest.fn(),
