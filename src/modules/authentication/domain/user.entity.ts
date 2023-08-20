@@ -4,6 +4,7 @@ import Id from '../../@shared/domain/value-object/id.value-object'
 import AccessGroup from './access-group.entity'
 import Tenant from '../../@shared/domain/entity/tenant.entity'
 import { RoleKeys } from '../../@shared/interfaces'
+import Franchise from '../../@shared/domain/entity/franchise.entity'
 
 type UserProps = {
   id?: Id
@@ -14,6 +15,7 @@ type UserProps = {
   isActive?: boolean
   tenant: Tenant
   accessGroup?: AccessGroup
+  franchises?: Franchise[]
   createdAt?: Date
   updatedAt?: Date
 }
@@ -25,6 +27,7 @@ export default class User extends BaseEntity implements AggregateRoot {
   private _role: RoleKeys
   private _isActive: boolean
   private _tenant: Tenant
+  private _franchises?: Franchise[]
   private _accessGroup?: AccessGroup
 
   constructor(props: UserProps) {
@@ -36,6 +39,7 @@ export default class User extends BaseEntity implements AggregateRoot {
     this._role = props.role
     this._tenant = props.tenant
     this._accessGroup = props.accessGroup
+    this._franchises = props.franchises
   }
 
   get username() {
@@ -64,6 +68,10 @@ export default class User extends BaseEntity implements AggregateRoot {
 
   get tenant() {
     return this._tenant
+  }
+
+  get franchises() {
+    return this._franchises
   }
 
   activate() {

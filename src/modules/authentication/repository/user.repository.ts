@@ -60,7 +60,7 @@ export default class UsersRepository implements UserGateway {
     try {
       const result = await this._prismaOrm.users.findUnique({
         where: { id },
-        include: { tenant: true } && { accessGroup: true },
+        include: { tenant: true } && { accessGroup: true } && { users_franchises_franchise: true },
       })
       if (!result) return null
 

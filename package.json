@@ -23,6 +23,7 @@
     "@swc/jest": "^0.2.26",
     "@types/bcrypt": "^5.0.0",
     "@types/jest": "^29.5.3",
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/msgpack5": "^3.4.3",
     "@types/node": "^20.4.2",
     "@types/uuid": "^9.0.2",
@@ -49,8 +50,10 @@
     "@fastify/swagger-ui": "^1.9.3",
     "@prisma/client": "^5.0.0",
     "bcrypt": "^5.1.0",
+    "dotenv": "^16.3.1",
     "fastify": "^4.20.0",
     "fastify-plugin": "^4.5.1",
+    "jsonwebtoken": "^9.0.1",
     "msgpack5": "^6.0.2",
     "prisma": "^5.0.0",
     "uuid": "^9.0.0"

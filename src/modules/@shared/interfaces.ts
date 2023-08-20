@@ -12,31 +12,9 @@ export const ROLES = {
 export type RoleKeys = (typeof ROLES)[keyof typeof ROLES]
 
 export interface SystemResourcesProps {
-  system: {
-    tenants: string
-    plans?: string
-  }
-  business?: {
-    franchises?: string
-    administrators?: string
-    coaches?: string
-  }
-  academy?: {
-    athletes?: string
-    teams?: string
-    sport_categories?: string
-    experimental_trainings?: string
-    medical_terms?: string
-  }
-  financial?: {
-    clients?: string
-    subscriptions?: string
-    charges?: string
-    plans?: string
-  }
-  technical?: {
-    report_models?: string
-    performance_reports?: string
-    attendance_list?: string
-  }
+  system: string[]
+  business: string[]
+  academy: string[]
+  financial: string[]
+  technical: string[]
 }

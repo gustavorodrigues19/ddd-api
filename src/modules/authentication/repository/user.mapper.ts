@@ -10,6 +10,7 @@ export default class UserMapper {
       role: user.role,
       isActive: user.isActive,
       accessGroup: user.accessGroup,
+      franchises: user.franchises,
       tenant: user.tenant,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,

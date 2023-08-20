@@ -42,20 +42,21 @@ model Plans {
 
 // AUTHENTICATION MODULE
 model Users {
-  id            String        @id @default(uuid())
-  username      String        @unique @db.VarChar(45)
-  email         String        @unique @db.VarChar(45)
-  password      String        @db.VarChar(45)
-  role          Role
-  isActive      Boolean       @default(true)
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @default(now())
-  tenantId      String
-  tenant        Tenants       @relation(fields: [tenantId], references: [id])
-  accessGroupId String
-  accessGroup   AccessGroups? @relation(fields: [accessGroupId], references: [id])
-  Coaches       Coaches[]
-  Athletes      Athletes[]
+  id                         String                       @id @default(uuid())
+  username                   String                       @unique @db.VarChar(45)
+  email                      String                       @unique @db.VarChar(45)
+  password                   String                       @db.VarChar(45)
+  role                       Role
+  isActive                   Boolean                      @default(true)
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @default(now())
+  tenantId                   String
+  tenant                     Tenants                      @relation(fields: [tenantId], references: [id])
+  accessGroupId              String
+  accessGroup                AccessGroups?                @relation(fields: [accessGroupId], references: [id])
+  Coaches                    Coaches[]
+  Athletes                   Athletes[]
+  users_franchises_franchise users_franchises_franchise[]
 }
 
 enum Role {
@@ -97,6 +98,18 @@ model Franchises {
   tenant                                Tenants                                 @relation(fields: [tenantId], references: [id])
   Teams                                 Teams[]
   sport_categories_franchises_franchise sport_categories_franchises_franchise[]
+  users_franchises_franchise            users_franchises_franchise[]
+}
+
+model users_franchises_franchise {
+  userId      String
+  franchiseId String
+  franchises  Franchises @relation(fields: [franchiseId], references: [id])
+  users       Users      @relation(fields: [userId], references: [id])
+
+  @@id([userId, franchiseId])
+  @@index([userId], name: "IDX_93b566d522b73cb8bc46e12042")
+  @@index([franchiseId], name: "IDX_a5e63f80ca58e7296d5982144f")
 }
 
 model Coaches {

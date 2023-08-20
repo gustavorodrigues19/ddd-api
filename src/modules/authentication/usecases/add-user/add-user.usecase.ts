@@ -35,11 +35,14 @@ export default class AddUserUseCase {
       if (!accessGroup) throw new Error('Access group not found')
     }
 
+    const salt = bcrypt.genSaltSync(10)
+    const hash = bcrypt.hashSync(input.password, salt)
+
     const props = {
       id: new Id(input.id) || new Id(),
       username: input.username,
       email: input.email,
-      password: bcrypt.hashSync(input.password, 10),
+      password: hash,
       role: input.role,
       accessGroup,
       tenant,

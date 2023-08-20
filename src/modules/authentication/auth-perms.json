@@ -60,7 +60,7 @@
       "technical": ["report_models:*:*", "performance_reports:*:*", "attendance_list:*:*"]
     },
     "ORGANIZATION_ADMIN": {
-      "system": ["tenants:view,edit:#", "plans:view:*"],
+      "system": ["tenants:view,edit:$", "plans:view:*"],
       "business": ["franchises:*:#", "administrators:*:#", "coaches:*:#"],
       "academy": [
         "athletes:*:#",
@@ -73,7 +73,7 @@
       "technical": ["report_models:*:#", "performance_reports:*:#", "attendance_list:*:#"]
     },
     "FRANCHISE_ADMIN": {
-      "system": ["tenants:view:#"],
+      "system": ["tenants:view:$"],
       "business": ["franchises:view,edit:#"],
       "academy": [
         "athletes:*:#",
