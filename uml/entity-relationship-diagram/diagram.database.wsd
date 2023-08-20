@@ -36,6 +36,7 @@ entity "Franchise" as franchise {
   *phone: text
   *document: text
   *isActive: boolean
+  
   *createdAt: DateTime
   *updatedAt: DateTime
   --

@@ -8,7 +8,7 @@ import User from '../../domain/user.entity'
 import { ROLES, SystemResourcesProps } from '../../../@shared/interfaces'
 import authPermissions from '../../auth-perms.json'
 import msgpack5 from 'msgpack5'
-import { getPermissionsStructure } from 'utils/permissions'
+import { getPermissionsStructure } from '../../../../utils/permissions'
 
 export default class AuthenticateUseCase implements UseCaseInterface {
   private _userRepository: UserGateway
@@ -45,14 +45,14 @@ export default class AuthenticateUseCase implements UseCaseInterface {
     permissions.system.forEach((system: string) => {
       const { entity, actions, values } = getPermissionsStructure(system)
 
-      if (entity === 'tenants' && values === '$') {
-        permissionsPopulated.system.push(`${entity}:${actions}:${user.tenant.id.id}`)
-      }
       if (entity === 'tenants' && values === '*' && user.role === ROLES.MASTER_ADMIN) {
         permissionsPopulated.system.push(`${entity}:${actions}:*`)
+      } else if (entity === 'tenants' && values === '$') {
+        permissionsPopulated.system.push(`${entity}:${actions}:${user.tenant.id.id}`)
       }
-      if (entity === 'plans' && values === '$') {
-        permissionsPopulated.system.push(`${entity}:${actions}:${user.tenant.plan.id.id}`)
+
+      if (entity === 'plans' && values === '*') {
+        permissionsPopulated.system.push(`${entity}:${actions}:*`)
       }
     })
 
@@ -61,10 +61,11 @@ export default class AuthenticateUseCase implements UseCaseInterface {
         const { entity, actions, values } = getPermissionsStructure(business)
         const franchisesIds = user.franchises?.map((franchise) => franchise.id.id) ?? []
 
-        if (entity === 'franchises' && values === '#') {
+        if (entity === 'franchises' && values === '*' && user.role === ROLES.MASTER_ADMIN) {
+          permissionsPopulated.business.push(`${entity}:${actions}:*`)
+        } else if (entity === 'franchises' && values === '#') {
           permissionsPopulated.business.push(`${entity}:${actions}:${franchisesIds.join(',')}`)
-        }
-        if (entity === 'franchises' && values === '$') {
+        } else if (entity === 'franchises' && values === '$') {
           permissionsPopulated.business.push(`${entity}:${actions}:${franchisesIds?.[0]}`)
         }
       })
@@ -77,16 +78,16 @@ export default class AuthenticateUseCase implements UseCaseInterface {
     const user = await this._userRepository.findByEmailOrUsername(input?.email, input?.username)
     if (!user?.length) throw new Error('User not found')
 
-    const passwordDecoded = Buffer.from(input.password, 'ascii').toString('ascii')
+    const passwordDecoded = Buffer.from(input.password, 'base64').toString()
 
     const secret = process.env.SECRET_KEY
     if (!secret) throw new Error('Secret key not found')
 
-    const isMatch = bcrypt.compareSync(user[0].password, passwordDecoded)
+    const isMatch = bcrypt.compareSync(passwordDecoded, user[0].password)
     if (!isMatch) throw new Error('Invalid credentials')
 
     const data = this.buildToken(user[0])
-    const token = jwt.sign(data, secret, { expiresIn: '1h' })
+    const token = jwt.sign({ data }, secret, { expiresIn: '1h' })
 
     return token
   }

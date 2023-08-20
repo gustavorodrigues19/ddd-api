@@ -74,7 +74,7 @@
     },
     "FRANCHISE_ADMIN": {
       "system": ["tenants:view:$"],
-      "business": ["franchises:view,edit:#"],
+      "business": ["franchises:view,edit:$"],
       "academy": [
         "athletes:*:#",
         "teams:*:#",
