@@ -19,6 +19,7 @@ export const swaggerGlobalOptions: FastifyRegisterOptions<SwaggerOptions> | unde
     tags: [
       { name: 'Tenants', description: 'Tenants related end-points' },
       { name: 'Plans', description: 'Plans related end-points' },
+      { name: 'Users', description: 'Users related end-points' },
     ],
     securityDefinitions: {
       apiKey: {

@@ -6,6 +6,7 @@ const tenantRepository = {
   update: jest.fn(),
   findById: jest.fn(),
   find: jest.fn(),
+  findByCondition: jest.fn(),
 }
 
 const planRepository = {

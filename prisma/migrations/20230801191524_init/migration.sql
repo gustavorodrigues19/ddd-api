@@ -24,6 +24,14 @@ CREATE TABLE "Plans" (
     CONSTRAINT "Plans_pkey" PRIMARY KEY ("id")
 );
 
+INSERT INTO
+  "Plans"
+  ("id", "name", "description", "price")
+VALUES
+  ('805baf31-24c4-4af8-841b-76fc38245458', 'Plano básico', 'Plano básico', 0),
+  ('c0b0b0b0-24c4-4af8-841b-76fc38245458', 'Plano intermediário', 'Plano intermediário', 100),
+  ('d0d0d0d0-24c4-4af8-841b-76fc38245458', 'Plano avançado', 'Plano avançado', 400);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Tenants_name_key" ON "Tenants"("name");
 

@@ -33,9 +33,9 @@ export default class AuthenticationFactory {
 
     return new AuthenticationFacade(
       findUsersUseCase,
+      findUserUseCase,
       addUserUseCase,
       updateUserUseCase,
-      findUserUseCase,
       deleteUserUseCase
     )
   }

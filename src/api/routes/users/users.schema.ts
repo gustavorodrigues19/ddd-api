@@ -2,59 +2,60 @@ import { errorResponse } from '../../infra/swagger/errors'
 
 const body = {
   type: 'object',
-  required: ['name', 'document', 'planId'],
+  required: ['username', 'email', 'role', 'password'],
   properties: {
-    name: { type: 'string' },
-    document: {
+    username: { type: 'string' },
+    email: {
       type: 'string',
     },
-    planId: { type: 'string' },
+    role: {
+      type: 'string',
+      pattern: '^MASTER_ADMIN|ORGANIZATION_ADMIN|FRANCHISE_ADMIN|CUSTOM_ADMIN$',
+    },
+    password: { type: 'string' },
+    accessGroupId: { type: 'string' },
+    tenantId: { type: 'string' },
     isActive: { type: 'boolean', default: true },
   },
 }
 
-const tenantProperties = {
+const userProperties = {
   id: { type: 'string' },
-  name: { type: 'string' },
-  document: { type: 'string' },
-  domain: { type: 'string' },
+  username: { type: 'string' },
+  email: { type: 'string' },
+  role: { type: 'string' },
   isActive: { type: 'boolean' },
   createdAt: { type: 'string' },
   updatedAt: { type: 'string' },
-  plan: {
+  accessGroup: {
     type: 'object',
     properties: {
       id: { type: 'string' },
       name: { type: 'string' },
-      description: { type: 'string' },
-      isActive: { type: 'boolean' },
-      createdAt: { type: 'string' },
-      price: { type: 'number' },
-      updatedAt: { type: 'string' },
     },
   },
 }
 
-export const CreateTenantSchema = {
+export const CreateUserSchema = {
   schema: {
-    description: 'Update tenant schema',
-    tags: ['Tenants'],
+    description: 'Update user schema',
+    tags: ['Users'],
     body,
     response: {
       200: {
         description: 'Successful response',
         type: 'object',
-        properties: tenantProperties,
+        properties: userProperties,
       },
       ...errorResponse,
     },
   },
 }
 
-export const UpdateTenantSchema = {
+export const UpdateUserSchema = {
   schema: {
-    description: 'Update tenant schema',
-    tags: ['Tenants'],
+    description: 'Update user schema',
+    tags: ['Users'],
     params: {
       type: 'object',
       required: ['id'],
@@ -67,17 +68,17 @@ export const UpdateTenantSchema = {
       200: {
         description: 'Successful response',
         type: 'object',
-        properties: tenantProperties,
+        properties: userProperties,
       },
       ...errorResponse,
     },
   },
 }
 
-export const GetTenantsSchema = {
+export const GetUsersSchema = {
   schema: {
-    description: 'Get tenants schema',
-    tags: ['Tenants'],
+    description: 'Get users schema',
+    tags: ['Users'],
     query: {
       type: 'object',
       required: ['skip'],
@@ -90,7 +91,7 @@ export const GetTenantsSchema = {
         description: 'Successful response',
         type: 'object',
         properties: {
-          data: { type: 'array', items: { type: 'object', properties: tenantProperties } },
+          data: { type: 'array', items: { type: 'object', properties: userProperties } },
           total: { type: 'number' },
           skip: { type: 'number' },
           take: { type: 'number' },
@@ -101,15 +102,15 @@ export const GetTenantsSchema = {
   },
 }
 
-export const GetTenantSchema = {
+export const GetUserSchema = {
   schema: {
-    description: 'Get tenant schema',
-    tags: ['Tenants'],
+    description: 'Get user schema',
+    tags: ['Users'],
     response: {
       200: {
         description: 'Successful response',
         type: 'object',
-        properties: tenantProperties,
+        properties: userProperties,
       },
       ...errorResponse,
     },

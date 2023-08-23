@@ -12,6 +12,7 @@ const MockUserRepository = {
   findById: jest.fn(() => Promise.resolve(mockUserEntity)),
   findByEmailOrUsername: jest.fn(),
   find: jest.fn(),
+  delete: jest.fn(),
 }
 const MockAccessGroupRepository = {
   add: jest.fn(),
