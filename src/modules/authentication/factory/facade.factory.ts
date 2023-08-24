@@ -9,6 +9,7 @@ import TenantsRepository from '../../@shared/repository/tenant-shared.repository
 import UsersRepository from '../repository/user.repository'
 import AccessGroupsRepository from '../repository/access-group.repository'
 import DeleteUserUseCase from '../usecases/delete-user/delete-user.usecase'
+import AuthenticateUseCase from '../usecases/autenticate/authenticate.usecase'
 
 export default class AuthenticationFactory {
   static create(): AuthenticationFacadeInterface {
@@ -30,13 +31,15 @@ export default class AuthenticationFactory {
     )
     const findUserUseCase = new FindUserUseCase(userRepository)
     const deleteUserUseCase = new DeleteUserUseCase(userRepository)
+    const authenticationUseCase = new AuthenticateUseCase(userRepository)
 
     return new AuthenticationFacade(
       findUsersUseCase,
       findUserUseCase,
       addUserUseCase,
       updateUserUseCase,
-      deleteUserUseCase
+      deleteUserUseCase,
+      authenticationUseCase
     )
   }
 }

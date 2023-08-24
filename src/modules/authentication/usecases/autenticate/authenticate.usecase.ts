@@ -75,7 +75,7 @@ export default class AuthenticateUseCase implements UseCaseInterface {
   }
 
   async execute(input: UserInputDto): Promise<string> {
-    const user = await this._userRepository.findByEmailOrUsername(input?.email, input?.username)
+    const user = await this._userRepository.findByEmailOrUsername(input.username, input.username)
     if (!user?.length) throw new Error('User not found')
 
     const passwordDecoded = Buffer.from(input.password, 'base64').toString()

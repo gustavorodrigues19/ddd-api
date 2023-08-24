@@ -60,7 +60,7 @@ export default class UsersRepository implements UserGateway {
     try {
       const result = await this._prismaOrm.users.findUnique({
         where: { id },
-        include: { tenant: true } && { accessGroup: true } && { users_franchises_franchise: true },
+        include: { tenant: true },
       })
       if (!result) return null
 
@@ -74,7 +74,7 @@ export default class UsersRepository implements UserGateway {
     try {
       const result = await this._prismaOrm.users.findMany({
         where: { OR: [{ email }, { username }] },
-        include: { tenant: true } && { accessGroup: true },
+        include: { tenant: true },
       })
 
       return result.map(UserMapper.toDomain)
@@ -86,7 +86,7 @@ export default class UsersRepository implements UserGateway {
   async find(skip: number, take: number): Promise<UserFindOutputDto> {
     try {
       const results = await this._prismaOrm.users.findMany({
-        include: { tenant: true } && { accessGroup: true },
+        include: { tenant: true },
         skip,
         take,
         orderBy: {

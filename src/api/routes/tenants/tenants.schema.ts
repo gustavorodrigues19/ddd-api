@@ -2,12 +2,13 @@ import { errorResponse } from '../../infra/swagger/errors'
 
 const body = {
   type: 'object',
-  required: ['name', 'document', 'planId'],
+  required: ['name', 'document', 'domain', 'planId'],
   properties: {
     name: { type: 'string' },
     document: {
       type: 'string',
     },
+    domain: { type: 'string' },
     planId: { type: 'string' },
     isActive: { type: 'boolean', default: true },
   },
@@ -37,7 +38,7 @@ const tenantProperties = {
 
 export const CreateTenantSchema = {
   schema: {
-    description: 'Update tenant schema',
+    description: 'Create tenant schema',
     tags: ['Tenants'],
     body,
     response: {

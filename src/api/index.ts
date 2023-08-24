@@ -4,12 +4,14 @@ import cors from '@fastify/cors'
 import swagger from '@fastify/swagger'
 import swaggerUi from '@fastify/swagger-ui'
 import { swaggerGlobalOptions } from './infra/swagger'
+import FastifyFormBody from '@fastify/formbody'
 
 const app = fastify({
   logger: true,
   disableRequestLogging: true,
 })
 
+app.register(FastifyFormBody)
 app.register(swagger, swaggerGlobalOptions)
 app.register(swaggerUi, {
   routePrefix: '/docs',

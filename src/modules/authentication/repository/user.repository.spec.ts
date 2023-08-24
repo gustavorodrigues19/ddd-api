@@ -39,7 +39,12 @@ describe('Add user repository', () => {
     const result = await repository.find(0, 100)
 
     expect(prismaClient.users.findMany).toHaveBeenCalled()
-    expect(result).toEqual({ data: [mockUserEntity], total: 1 })
+    expect(result.total).toBe(1)
+    expect(result.data[0].username).toEqual(mockUserEntity.username)
+    expect(result.data[0].email).toEqual(mockUserEntity.email)
+    expect(result.data[0].isActive).toEqual(mockUserEntity.isActive)
+    expect(result.data[0].tenant.id.id).toEqual(mockUserEntity.tenant.id)
+    expect(result.data[0].tenant.name).toEqual(mockUserEntity.tenant.name)
   })
 
   it('should find users by email or username', async () => {
@@ -49,7 +54,11 @@ describe('Add user repository', () => {
     const result = await repository.findByEmailOrUsername('email', 'username')
 
     expect(prismaClient.users.findMany).toHaveBeenCalled()
-    expect(result).toEqual([mockUserEntity])
+    expect(result[0].username).toEqual(mockUserEntity.username)
+    expect(result[0].email).toEqual(mockUserEntity.email)
+    expect(result[0].isActive).toEqual(mockUserEntity.isActive)
+    expect(result[0].tenant.id.id).toEqual(mockUserEntity.tenant.id)
+    expect(result[0].tenant.name).toEqual(mockUserEntity.tenant.name)
   })
 
   it('should find a user by id', async () => {
@@ -59,7 +68,11 @@ describe('Add user repository', () => {
     const result = await repository.findById('1')
 
     expect(prismaClient.users.findUnique).toHaveBeenCalled()
-    expect(result).toEqual(mockUserEntity)
+    expect(result?.username).toEqual(mockUserEntity.username)
+    expect(result?.email).toEqual(mockUserEntity.email)
+    expect(result?.isActive).toEqual(mockUserEntity.isActive)
+    expect(result?.tenant.id.id).toEqual(mockUserEntity.tenant.id)
+    expect(result?.tenant.name).toEqual(mockUserEntity.tenant.name)
   })
 
   it('should not find a user by id', async () => {

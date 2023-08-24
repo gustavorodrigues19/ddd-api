@@ -43,6 +43,11 @@ export interface UserOutputDto {
   updatedAt: Date
 }
 
+export interface AuthenticationInputDto {
+  username: string
+  password: string
+}
+
 export interface UsersOutputDto {
   data: UserOutputDto[]
   total: number
@@ -56,4 +61,5 @@ export interface AuthenticationFacadeInterface {
   updateUser(input: UpdateUserInputDto): Promise<UserOutputDto>
   findUser(id: string): Promise<UserOutputDto>
   deleteUser(id: string): Promise<UserOutputDto>
+  authenticate(input: AuthenticationInputDto): Promise<string>
 }

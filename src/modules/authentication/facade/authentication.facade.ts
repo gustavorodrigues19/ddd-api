@@ -1,6 +1,7 @@
 import UseCaseInterface from '../../@shared/usecase/use-case.interface'
 import {
   AuthenticationFacadeInterface,
+  AuthenticationInputDto,
   CreateUserInputDto,
   UpdateUserInputDto,
   UserOutputDto,
@@ -13,19 +14,22 @@ export default class AuthenticationFacade implements AuthenticationFacadeInterfa
   private _createUserUseCase: UseCaseInterface
   private _updateUserUseCase: UseCaseInterface
   private _deleteUserUseCase: UseCaseInterface
+  private _authenticationUseCase: UseCaseInterface
 
   constructor(
     findUsersUseCase: UseCaseInterface,
     findUserUseCase: UseCaseInterface,
     createUserUseCase: UseCaseInterface,
     updateUserUseCase: UseCaseInterface,
-    deleteUserUseCase: UseCaseInterface
+    deleteUserUseCase: UseCaseInterface,
+    authenticationUseCase: UseCaseInterface
   ) {
     this._findUsersUseCase = findUsersUseCase
     this._findUserUseCase = findUserUseCase
     this._createUserUseCase = createUserUseCase
     this._updateUserUseCase = updateUserUseCase
     this._deleteUserUseCase = deleteUserUseCase
+    this._authenticationUseCase = authenticationUseCase
   }
 
   async findUsers(skip: number): Promise<UsersOutputDto> {
@@ -46,5 +50,9 @@ export default class AuthenticationFacade implements AuthenticationFacadeInterfa
 
   async deleteUser(id: string): Promise<UserOutputDto> {
     return this._deleteUserUseCase.execute(id)
+  }
+
+  async authenticate(input: AuthenticationInputDto): Promise<string> {
+    return this._authenticationUseCase.execute(input)
   }
 }
